@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun showCryptos(cryptoObjects: List<Crypto>) {
+        //stiu ca nu i deloc bine cum am scris aici dar altfel n am reusit
         val textView1:TextView = findViewById(R.id.coin_text_1)
         val textView2:TextView = findViewById(R.id.coin_text_2)
         val textView3:TextView = findViewById(R.id.coin_text_3)
