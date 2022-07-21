@@ -9,8 +9,7 @@
         <item name="android:padding">50dp</item>
     </style>
     <style name="cryptoIcon">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">100dp</item>
-        <item name="android:layout_marginEnd">50dp</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
     </style>
 </resources>

@@ -14,9 +14,9 @@
         android:paddingStart="@dimen/margin_wide"
         android:paddingTop="@dimen/margin_wide"
         android:paddingEnd="@dimen/margin_wide"
-        android:text="TextView"
+        android:text="@string/coin_text_1"
         app:layout_constraintBottom_toTopOf="@+id/coin_text_2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/btc_img"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,9 +29,9 @@
         android:paddingStart="@dimen/margin_wide"
         android:paddingTop="@dimen/margin_wide"
         android:paddingEnd="@dimen/margin_wide"
-        android:text="TextView"
+        android:text="@string/coin_text_2"
         app:layout_constraintBottom_toTopOf="@+id/coin_text_3"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/eth_img"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coin_text_1" />
@@ -41,41 +41,77 @@
         style="@style/whiteBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:fontFamily="@font/roboto_medium"
         android:paddingStart="@dimen/margin_wide"
         android:paddingTop="@dimen/margin_wide"
         android:paddingEnd="@dimen/margin_wide"
-        android:text="TextView"
+        android:text="@string/coin_text_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/usdt_img"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/coin_text_2" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/btc_img"
         style="@style/cryptoIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/coin_text_1"
+        android:layout_marginEnd="50dp"
+        android:contentDescription="@string/btc_img"
+        app:layout_constraintBottom_toTopOf="@+id/btc_btn_click"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coin_text_1"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/btc_img" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/eth_img"
         style="@style/cryptoIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/coin_text_2"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/eth_btn_click"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coin_text_2"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/eth_img" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/usdt_img"
         style="@style/cryptoIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/coin_text_3"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/usdt_btn_click"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coin_text_3"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/usdt_img" />
+
+    <Button
+        android:id="@+id/btc_btn_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btc_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/coin_text_1"
+        app:layout_constraintEnd_toEndOf="@+id/btc_img"
+        app:layout_constraintStart_toStartOf="@+id/btc_img"
+        app:layout_constraintTop_toBottomOf="@+id/btc_img" />
+
+    <Button
+        android:id="@+id/eth_btn_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eth_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/coin_text_2"
+        app:layout_constraintEnd_toEndOf="@+id/eth_img"
+        app:layout_constraintStart_toStartOf="@+id/eth_img"
+        app:layout_constraintTop_toBottomOf="@+id/eth_img" />
+
+    <Button
+        android:id="@+id/usdt_btn_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/usdt_btn"
+        app:layout_constraintBottom_toBottomOf="@+id/coin_text_3"
+        app:layout_constraintEnd_toEndOf="@+id/usdt_img"
+        app:layout_constraintStart_toStartOf="@+id/usdt_img"
+        app:layout_constraintTop_toBottomOf="@+id/usdt_img" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

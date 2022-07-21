@@ -1,3 +1,12 @@
 <resources>
+    <string name="coin_text_1">Bitcoin</string>
+    <string name="coin_text_2">Ethereum</string>
+    <string name="coin_text_3">Tether</string>
     <string name="app_name">Crypto App</string>
+    <string name="btc_img">Bitcoin Image</string>
+    <string name="eth_img">Ethereum Image</string>
+    <string name="usdt_img">Tether Image</string>
+    <string name="btc_btn">See BTC Details</string>
+    <string name="eth_btn">See ETH Details</string>
+    <string name="usdt_btn">See USDT Details</string>
 </resources>

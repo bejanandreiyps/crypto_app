@@ -1,15 +1,13 @@
 package com.example.cryptoapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONArray
-import org.json.JSONTokener
 import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +18,11 @@ class MainActivity : AppCompatActivity() {
         val cryptoList = object : TypeToken<List<Crypto>>() {}.type
         val cryptoObjects: List<Crypto> = Gson().fromJson(jsonData, cryptoList)
         showCryptos(cryptoObjects)
+        val buttonClick = findViewById<Button>(R.id.btc_btn_click)
+        buttonClick.setOnClickListener {
+            val intent = Intent(this, NewActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun readJSONFromAsset(): String? {
@@ -37,6 +40,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun showCryptos(cryptoObjects: List<Crypto>) {
         //stiu ca nu i deloc bine cum am scris aici dar altfel n am reusit
+        //data binding
+        //toString in model
         val textView1:TextView = findViewById(R.id.coin_text_1)
         val textView2:TextView = findViewById(R.id.coin_text_2)
         val textView3:TextView = findViewById(R.id.coin_text_3)
@@ -55,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 "Active: ${cryptoObjects[1].isActive}\n" +
                 "Type: ${cryptoObjects[1].type}"
         textView3.text = "ID: ${cryptoObjects[2].id}\n" +
-        "Name: ${cryptoObjects[2].name}\n" +
+                "Name: ${cryptoObjects[2].name}\n" +
                 "Symbol: ${cryptoObjects[2].symbol}\n" +
                 "Rank: ${cryptoObjects[2].rank}\n" +
                 "New: ${cryptoObjects[2].isNew}\n" +

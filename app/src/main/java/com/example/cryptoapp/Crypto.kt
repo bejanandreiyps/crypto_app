@@ -9,3 +9,15 @@ data class Crypto(
     val isActive:Boolean,
     val type:String
     ) {}
+
+fun Crypto.toCrypto(): Crypto {
+    return Crypto (
+        id = id,
+        name = name,
+        symbol = symbol,
+        rank = rank,
+        isNew = isNew,
+        isActive = isActive,
+        type = type
+    )
+}
