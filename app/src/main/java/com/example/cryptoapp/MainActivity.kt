@@ -14,15 +14,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val jsonData = readJSONFromAsset()
-        val cryptoList = object : TypeToken<List<Crypto>>() {}.type
-        val cryptoObjects: List<Crypto> = Gson().fromJson(jsonData, cryptoList)
-        showCryptos(cryptoObjects)
-        val buttonClick = findViewById<Button>(R.id.btc_btn_click)
-        buttonClick.setOnClickListener {
-            val intent = Intent(this, NewActivity::class.java)
-            startActivity(intent)
-        }
+        showCryptos()
+        setOnClickButtons()
     }
 
     fun readJSONFromAsset(): String? {
@@ -37,11 +30,18 @@ class MainActivity : AppCompatActivity() {
         return json
     }
 
+    fun getJSONObjects(): List<Crypto> {
+        val jsonData = readJSONFromAsset()
+        val cryptoList = object : TypeToken<List<Crypto>>() {}.type
+        return Gson().fromJson(jsonData, cryptoList)
+    }
+
     @SuppressLint("SetTextI18n")
-    fun showCryptos(cryptoObjects: List<Crypto>) {
+    fun showCryptos() {
         //stiu ca nu i deloc bine cum am scris aici dar altfel n am reusit
         //data binding
         //toString in model
+        val cryptoObjects: List<Crypto> = getJSONObjects()
         val textView1:TextView = findViewById(R.id.coin_text_1)
         val textView2:TextView = findViewById(R.id.coin_text_2)
         val textView3:TextView = findViewById(R.id.coin_text_3)
@@ -66,5 +66,23 @@ class MainActivity : AppCompatActivity() {
                 "New: ${cryptoObjects[2].isNew}\n" +
                 "Active: ${cryptoObjects[2].isActive}\n" +
                 "Type: ${cryptoObjects[2].type}"
+    }
+
+    fun setOnClickButtons() {
+        val btcBtnClick = findViewById<Button>(R.id.btc_btn_click)
+        btcBtnClick.setOnClickListener {
+            val intent = Intent(this, NewActivity::class.java)
+            startActivity(intent)
+        }
+        val ethBtnClick = findViewById<Button>(R.id.eth_btn_click)
+        ethBtnClick.setOnClickListener {
+            val intent = Intent(this, NewActivity::class.java)
+            startActivity(intent)
+        }
+        val usdtBtnClick = findViewById<Button>(R.id.usdt_btn_click)
+        usdtBtnClick.setOnClickListener {
+            val intent = Intent(this, NewActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
