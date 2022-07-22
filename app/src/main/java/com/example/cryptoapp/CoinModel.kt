@@ -1,6 +1,6 @@
 package com.example.cryptoapp
 
-data class Crypto(
+data class CoinModel(
     val id:String,
     val name:String,
     val symbol:String,
@@ -10,8 +10,8 @@ data class Crypto(
     val type:String
     ) {}
 
-fun Crypto.toCrypto(): Crypto {
-    return Crypto (
+fun CoinModel.toCrypto(): CoinModel {
+    return CoinModel (
         id = id,
         name = name,
         symbol = symbol,
