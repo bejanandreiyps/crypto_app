@@ -1,38 +1,43 @@
 package com.example.cryptoapp.domain
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class CoinDetailsModel(
-    val description: String = "",
-    @SerializedName("development_status")
-    val developmentStatus: String = "",
-    @SerializedName("first_date_et")
-    val firstDateAt: String = "",
-    @SerializedName("hardware_wallet")
-    val hardwareWallet: Boolean = false,
-    @SerializedName("hash_algorithm")
-    val hashAlgorithm: String = "",
     val id: String = "",
-    @SerializedName("is_active")
-    val isActive: Boolean = false,
+    val name: String = "",
+    val symbol: String = "",
+    val rank: Int = 0,
     @SerializedName("is_new")
     val isNew: Boolean = false,
-    @SerializedName("links_extended")
-    val linkModels: List<LinkModel> = emptyList(),
-    val linkExtendedModel: List<LinkExtendedModel> = emptyList(),
+    @SerializedName("is_active")
+    val isActive: Boolean = false,
+    val type: String = "",
+    val tags: List<TagModel> = emptyList(),
+    val team: List<TeamMemberModel> = emptyList(),
+    val description: String = "",
     val message: String = "",
-    val name: String = "",
-    @SerializedName("org_structure")
-    val orgStructure: String = "",
-    @SerializedName("proof_type")
-    val proofType: String = "",
-    val rank: Int = -1,
+    @SerializedName("open_source")
+    val openSource: Boolean = false,
     @SerializedName("started_at")
     val startedAt: String = "",
-    val symbol: String = "",
-    val tagModels: List<TagModel> = emptyList(),
-    val team: List<TeamMemberModel> = emptyList(),
-    val type: String = "",
-    val whitePaperModel: WhitePaperModel = WhitePaperModel()
+    @SerializedName("development_status")
+    val developmentStatus: String = "",
+    @SerializedName("hardware_wallet")
+    val hardwareWallet: Boolean = false,
+    @SerializedName("proof_type")
+    val proofType: String = "",
+    @SerializedName("org_structure")
+    val orgStructure: String = "",
+    @SerializedName("hash_algorithm")
+    val hashAlgorithm: String = "",
+    val links: LinkModel = LinkModel(),
+    @SerializedName("links_extended")
+    val linksExtended: List<LinkExtendedModel> = emptyList(),
+    val whitePaperModel: WhitePaperModel = WhitePaperModel(),
+    @SerializedName("first_data_at")
+    val firstDateAt: Date = Date(),
+    @SerializedName("last_data_at")
+    val lastDateAt: Date = Date()
     )
 {}

@@ -9,4 +9,10 @@
     <string name="btc_btn">See BTC Details</string>
     <string name="eth_btn">See ETH Details</string>
     <string name="usdt_btn">See USDT Details</string>
+    <string name="header_text">Header Text</string>
+    <string name="description_text">Description Text</string>
+    <string name="active_text">Active Text</string>
+    <string name="tag_text">Tags</string>
+    <string name="team_members_text">Team Members</string>
+    <string name="tag_item_text">Tag Text</string>
 </resources>

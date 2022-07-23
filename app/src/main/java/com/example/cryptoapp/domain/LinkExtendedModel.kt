@@ -1,6 +1,7 @@
 package com.example.cryptoapp.domain
 
 data class LinkExtendedModel (
-    val url: String,
-    val type: String
+    val url: String = "",
+    val type: String = "",
+    val stats: StatsModel = StatsModel()
 ) {}

@@ -2,6 +2,7 @@ package com.example.cryptoapp
 
 import android.content.Context
 import com.example.cryptoapp.domain.CoinDetailsModel
+import com.example.cryptoapp.domain.CoinModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
