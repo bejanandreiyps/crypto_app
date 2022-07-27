@@ -15,4 +15,7 @@
     <string name="tag_text">Tags</string>
     <string name="team_members_text">Team Members</string>
     <string name="tag_item_text">Tag Text</string>
+    <string name="deaf_string">you are deaf haha</string>
+    <string name="member_name">Member Name</string>
+    <string name="member_position">Member Position</string>
 </resources>

@@ -13,6 +13,7 @@ import androidx.core.view.size
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
 import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.example.cryptoapp.domain.GridItemTagModel
+import com.example.cryptoapp.domain.LVItemMemberModel
 import com.example.cryptoapp.domain.TeamMemberModel
 
 class CoinDetailActivity : AppCompatActivity() {
@@ -50,11 +51,7 @@ class CoinDetailActivity : AppCompatActivity() {
         val tagList = details.tags.map { it -> GridItemTagModel(it.name) }
         binding.gridTags.adapter = GridAdapter(this, tagList)
 
-        val adapter: ArrayAdapter<TeamMemberModel>
-        val teamMembers = details.team
-        var listView = binding.lvTeamMembers
-        adapter = ArrayAdapter(this,
-            android.R.layout.simple_list_item_1, teamMembers)
-        listView.adapter = adapter
+        val teamMembers = details.team.map { it -> LVItemMemberModel(it.name, it.position)}
+        binding.lvTeamMembers.adapter = ListViewAdapter(this, teamMembers)
     }
 }

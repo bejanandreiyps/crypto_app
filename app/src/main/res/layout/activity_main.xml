@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="8dp"
     tools:context=".MainActivity">
 
     <TextView
@@ -26,6 +27,8 @@
         style="@style/whiteBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/coin_text_1"
+        android:gravity="center"
         android:paddingStart="@dimen/margin_wide"
         android:paddingTop="@dimen/margin_wide"
         android:paddingEnd="@dimen/margin_wide"
@@ -41,6 +44,7 @@
         style="@style/whiteBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/coin_text_2"
         android:fontFamily="@font/roboto_medium"
         android:paddingStart="@dimen/margin_wide"
         android:paddingTop="@dimen/margin_wide"
@@ -57,6 +61,7 @@
         android:id="@+id/btc_img"
         style="@style/cryptoIcon"
         android:layout_marginEnd="50dp"
+        android:layout_toEndOf="@id/coin_text_1"
         android:contentDescription="@string/btc_img"
         app:layout_constraintBottom_toTopOf="@+id/btc_btn_click"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,27 +72,37 @@
     <ImageView
         android:id="@+id/eth_img"
         style="@style/cryptoIcon"
+        android:layout_below="@id/coin_text_1"
+        android:layout_toEndOf="@id/coin_text_2"
         android:layout_marginEnd="50dp"
         app:layout_constraintBottom_toTopOf="@+id/eth_btn_click"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coin_text_2"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/eth_img" />
+        app:srcCompat="@drawable/eth_img"
+        android:contentDescription="@string/deaf_string" />
 
     <ImageView
         android:id="@+id/usdt_img"
         style="@style/cryptoIcon"
+        android:layout_below="@id/coin_text_2"
         android:layout_marginEnd="50dp"
+        android:layout_toEndOf="@id/coin_text_3"
         app:layout_constraintBottom_toTopOf="@+id/usdt_btn_click"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/coin_text_3"
         app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/usdt_img" />
+        app:srcCompat="@drawable/usdt_img"
+        android:contentDescription="@string/deaf_string" />
 
     <Button
         android:id="@+id/btc_btn_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btc_img"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="-4dp"
+        android:layout_toEndOf="@id/coin_text_1"
         android:text="@string/btc_btn"
         app:layout_constraintBottom_toBottomOf="@+id/coin_text_1"
         app:layout_constraintEnd_toEndOf="@+id/btc_img"
@@ -98,6 +113,8 @@
         android:id="@+id/eth_btn_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/eth_img"
+        android:layout_toEndOf="@id/coin_text_2"
         android:text="@string/eth_btn"
         app:layout_constraintBottom_toBottomOf="@+id/coin_text_2"
         app:layout_constraintEnd_toEndOf="@+id/eth_img"
@@ -106,6 +123,8 @@
 
     <Button
         android:id="@+id/usdt_btn_click"
+        android:layout_below="@id/usdt_img"
+        android:layout_toEndOf="@id/coin_text_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/usdt_btn"
@@ -114,4 +133,8 @@
         app:layout_constraintStart_toStartOf="@+id/usdt_img"
         app:layout_constraintTop_toBottomOf="@+id/usdt_img" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+</RelativeLayout>

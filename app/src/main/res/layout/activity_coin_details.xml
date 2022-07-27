@@ -55,8 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:fontFamily="@font/roboto_medium"
         android:text="@string/team_members_text"
         android:textColor="@color/white"
+        android:textSize="40sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/grid_tags" />
 
@@ -71,8 +73,8 @@
 
     <ListView
         android:id="@+id/lvTeamMembers"
-        android:layout_width="346dp"
-        android:layout_height="446dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
