@@ -1,25 +1,18 @@
 package com.example.cryptoapp
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.core.view.indices
-import androidx.core.view.size
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
-import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.example.cryptoapp.domain.GridItemTagModel
 import com.example.cryptoapp.domain.LVItemMemberModel
-import com.example.cryptoapp.domain.TeamMemberModel
 
 class CoinDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCoinDetailsBinding
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCoinDetailsBinding.inflate(layoutInflater)
@@ -48,10 +41,10 @@ class CoinDetailActivity : AppCompatActivity() {
             }
         }
 
-        val tagList = details.tags.map { it -> GridItemTagModel(it.name) }
+        val tagList = details.tags.map { GridItemTagModel(it.name) }
         binding.gridTags.adapter = GridAdapter(this, tagList)
 
-        val teamMembers = details.team.map { it -> LVItemMemberModel(it.name, it.position)}
+        val teamMembers = details.team.map { LVItemMemberModel(it.name, it.position)}
         binding.lvTeamMembers.adapter = ListViewAdapter(this, teamMembers)
     }
 }
