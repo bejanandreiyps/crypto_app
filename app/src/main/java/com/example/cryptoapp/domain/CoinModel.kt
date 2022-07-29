@@ -8,16 +8,19 @@ data class CoinModel(
     val isNew:Boolean,
     val isActive:Boolean,
     val type:String
-    ) {}
+    ) {
+    fun toStringID() : String {
+        return "ID: ${this.id}"
+    }
+    fun toStringColumn1() : String {
+        return "Name: ${this.name}\n" +
+                "Symbol: ${this.symbol}\n" +
+                "Rank: ${this.rank}"
 
-fun CoinModel.toCrypto(): CoinModel {
-    return CoinModel (
-        id = id,
-        name = name,
-        symbol = symbol,
-        rank = rank,
-        isNew = isNew,
-        isActive = isActive,
-        type = type
-    )
+    }
+    fun toStringColumn2() : String {
+        return "New: ${this.isNew} \n" +
+                "Active: ${this.isActive}\n" +
+                "Type: ${this.type}"
+    }
 }

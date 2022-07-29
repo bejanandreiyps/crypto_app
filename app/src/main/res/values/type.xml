@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textAlignment">center</item>
+        <item name="background">@drawable/background</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/secondaryColor</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

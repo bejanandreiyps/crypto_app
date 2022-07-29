@@ -4,8 +4,15 @@
     <string name="coin_text_3">Tether</string>
     <string name="app_name">Crypto App</string>
     <string name="btc_img">Bitcoin Image</string>
-    <string name="eth_img">Ethereum Image</string>
+    <string name="ethereum_img">Ethereum Image</string>
     <string name="usdt_img">Tether Image</string>
+    <string name="avax_img">Aavalanche Image</string>
+    <string name="doge_img">DogeCoin Image</string>
+    <string name="dot_img">Polkadot Image</string>
+    <string name="okb_img">Okb Image</string>
+    <string name="qnt_img">Quant Image</string>
+    <string name="rune_img">Thorchain Image</string>
+    <string name="tusd_img">TrueUsd Image</string>
     <string name="btc_btn">See BTC Details</string>
     <string name="eth_btn">See ETH Details</string>
     <string name="usdt_btn">See USDT Details</string>
@@ -15,7 +22,10 @@
     <string name="tag_text">Tags</string>
     <string name="team_members_text">Team Members</string>
     <string name="tag_item_text">Tag Text</string>
-    <string name="deaf_string">you are deaf haha</string>
+    <string name="deaf_string">punetialteurechi</string>
     <string name="member_name">Member Name</string>
     <string name="member_position">Member Position</string>
+    <string name="coin_id">Coin ID</string>
+    <string name="coin_column_2">Coin Column 2</string>
+    <string name="coin_column_1">Coin Column 1</string>
 </resources>
