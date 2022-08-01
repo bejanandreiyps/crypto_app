@@ -1,12 +1,15 @@
 package com.example.cryptoapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.example.cryptoapp.domain.Affirmation
+import com.example.cryptoapp.domain.CoinModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), RecyclerAdapter.ItemClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -20,11 +23,20 @@ class MainActivity : AppCompatActivity() {
         val images = loadAffirmations()
 
         val adapter = RecyclerAdapter()
+        adapter.setClickListener(this)
         adapter.list = cryptoList
         adapter.images = images
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
     }
+
+    override fun onClick(view: View?, position: Int) {
+        val intent = Intent(this, CoinDetailActivity::class.java)
+        val cryptoList = FileUtils.getCryptoCoins(this, R.raw.input_data)
+        intent.putExtra("id_coin", cryptoList[position].id)
+        startActivity(intent)
+    }
+
     private fun loadAffirmations(): List<Affirmation> {
         return listOf<Affirmation>(
             Affirmation(R.string.btc_img, R.drawable.btc_img),

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_margin="5dp"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="7dp"
-    app:contentPadding="5dp"
     android:backgroundTint="@color/primaryLightColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +25,7 @@
 
         <TextView
             android:id="@+id/coin_properties_column1"
-            style="@style/TextAppearance"
+            style="?attr/textAppearanceBody1"
             android:text="@string/coin_column_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +35,7 @@
 
         <TextView
             android:id="@+id/coin_properties_column2"
-            style="@style/TextAppearance"
+            style="?attr/textAppearanceBody1"
             android:text="@string/coin_column_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +45,7 @@
 
         <TextView
             android:id="@+id/coin_id"
-            style="@style/TextAppearance"
+            style="?attr/textAppearanceBody1"
             android:text="@string/coin_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,4 +63,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
