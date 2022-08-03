@@ -28,4 +28,18 @@
     <string name="coin_id">Coin ID</string>
     <string name="coin_column_2">Coin Column 2</string>
     <string name="coin_column_1">Coin Column 1</string>
+    <string name="hello_first_fragment" />
+    <string name="previous">previous</string>
+    <string name="next">next</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome</string>
+    <string name="enter_credentials">Please enter your credentials</string>
+    <string name="deaf_fuck">haha you deaf cunt</string>
+    <string name="login">Login</string>
 </resources>

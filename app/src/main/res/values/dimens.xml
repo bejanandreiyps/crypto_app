@@ -2,4 +2,5 @@
 <resources>
     <dimen name="margin_wide">50dp</dimen>
     <dimen name="box_text_size">20dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
