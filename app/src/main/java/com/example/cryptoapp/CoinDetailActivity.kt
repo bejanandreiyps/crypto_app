@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cryptoapp.adapter.GridAdapter
+import com.example.cryptoapp.adapter.ListViewAdapter
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
 import com.example.cryptoapp.domain.GridItemTagModel
 import com.example.cryptoapp.domain.LVItemMemberModel

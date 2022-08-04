@@ -1,4 +1,4 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.databinding.CardLayoutBinding
-import com.example.cryptoapp.domain.Affirmation
-import com.example.cryptoapp.domain.CoinModel
+import com.example.cryptoapp.domain.AffirmationModel
+import com.example.cryptoapp.domain.crypto.CoinModel
 
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     lateinit var listener: ItemClickListener
@@ -17,12 +17,12 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
             field = value
             notifyDataSetChanged()
         }
-    var images = listOf<Affirmation>()
+    var images = listOf<AffirmationModel>()
 
     inner class ViewHolder(private val binding: CardLayoutBinding, listener: ItemClickListener): RecyclerView.ViewHolder(binding.root),
     View.OnClickListener {
         @SuppressLint("ResourceAsColor")
-        fun bind(item: CoinModel, affirmation: Affirmation) {
+        fun bind(item: CoinModel, affirmation: AffirmationModel) {
             binding.coinId.text = item.toStringID()
             binding.coinPropertiesColumn1.text = item.toStringColumn1()
             binding.coinPropertiesColumn2.text = item.toStringColumn2()

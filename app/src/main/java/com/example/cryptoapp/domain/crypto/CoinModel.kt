@@ -1,4 +1,4 @@
-package com.example.cryptoapp.domain
+package com.example.cryptoapp.domain.crypto
 
 data class CoinModel(
     val id:String,

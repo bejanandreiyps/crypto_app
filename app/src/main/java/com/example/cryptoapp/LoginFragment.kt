@@ -27,13 +27,22 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 val token = repo.getToken()
-                println("apelat get token")
-                val credentials = CredentialsModel("andreibejanyps", "tmdbmovies", token.requestToken)
+                val credentials =
+                    CredentialsModel("andreibejanyps", "tmdbmovies", token.requestToken)
                 repo.postLogin(credentials)
-                println("apelat post login")
+                val homeScreenFragment = HomeScreenFragment()
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(
+                        R.id.fragment_container_view_tag,
+                        homeScreenFragment,
+                        "homeScreenFragment"
+                    )
+                    ?.addToBackStack(null)
+                    ?.commit()
             }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

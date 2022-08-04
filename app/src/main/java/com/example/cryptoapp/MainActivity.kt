@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoapp.adapter.RecyclerAdapter
 import com.example.cryptoapp.databinding.ActivityMainBinding
-import com.example.cryptoapp.domain.Affirmation
-import com.example.cryptoapp.domain.CoinModel
+import com.example.cryptoapp.domain.AffirmationModel
 
 class MainActivity : AppCompatActivity(), RecyclerAdapter.ItemClickListener {
 
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.ItemClickListener {
 
         val fileId = R.raw.input_data
         val cryptoList = FileUtils.getCryptoCoins(this, fileId)
-        val images = loadAffirmations()
+        val images = loadAffirmationModelModels()
 
         val adapter = RecyclerAdapter()
         adapter.setClickListener(this)
@@ -37,18 +37,18 @@ class MainActivity : AppCompatActivity(), RecyclerAdapter.ItemClickListener {
         startActivity(intent)
     }
 
-    private fun loadAffirmations(): List<Affirmation> {
-        return listOf<Affirmation>(
-            Affirmation(R.string.btc_img, R.drawable.btc_img),
-            Affirmation(R.string.ethereum_img, R.drawable.ethereum_img),
-            Affirmation(R.string.usdt_img, R.drawable.usdt_img),
-            Affirmation(R.string.avax_img, R.drawable.avax_img),
-            Affirmation(R.string.doge_img, R.drawable.doge_img),
-            Affirmation(R.string.dot_img, R.drawable.dot_img),
-            Affirmation(R.string.okb_img, R.drawable.okb_img),
-            Affirmation(R.string.qnt_img, R.drawable.qnt_img),
-            Affirmation(R.string.rune_img, R.drawable.rune_img),
-            Affirmation(R.string.tusd_img, R.drawable.tusd_img)
+    private fun loadAffirmationModelModels(): List<AffirmationModel> {
+        return listOf<AffirmationModel>(
+            AffirmationModel(R.string.btc_img, R.drawable.btc_img),
+            AffirmationModel(R.string.ethereum_img, R.drawable.ethereum_img),
+            AffirmationModel(R.string.usdt_img, R.drawable.usdt_img),
+            AffirmationModel(R.string.avax_img, R.drawable.avax_img),
+            AffirmationModel(R.string.doge_img, R.drawable.doge_img),
+            AffirmationModel(R.string.dot_img, R.drawable.dot_img),
+            AffirmationModel(R.string.okb_img, R.drawable.okb_img),
+            AffirmationModel(R.string.qnt_img, R.drawable.qnt_img),
+            AffirmationModel(R.string.rune_img, R.drawable.rune_img),
+            AffirmationModel(R.string.tusd_img, R.drawable.tusd_img)
         )
     }
 }

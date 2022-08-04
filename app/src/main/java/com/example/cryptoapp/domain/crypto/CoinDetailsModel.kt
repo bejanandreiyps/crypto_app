@@ -1,5 +1,6 @@
-package com.example.cryptoapp.domain
+package com.example.cryptoapp.domain.crypto
 
+import com.example.cryptoapp.domain.*
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
