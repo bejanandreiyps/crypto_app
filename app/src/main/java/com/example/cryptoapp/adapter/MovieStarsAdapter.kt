@@ -5,11 +5,8 @@ import android.view.ViewGroup
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.cryptoapp.databinding.CardLayoutBinding
 import com.example.cryptoapp.databinding.MovieStarsLayoutBinding
-import com.example.cryptoapp.domain.AffirmationModel
 import com.example.cryptoapp.domain.stars.ActorModel
-import com.example.cryptoapp.domain.stars.MovieStarModel
 
 class MovieStarsAdapter : RecyclerView.Adapter<MovieStarsAdapter.MovieStarViewHolder>() {
    var movieStarList = listOf<ActorModel>()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ShapeAppearanceSmall" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <!--<style name="ShapeAppearanceSmall" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>
     </style>
@@ -12,4 +12,7 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">15dp</item>
     </style>
+    <style name="MovieShape" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+
+    </style>-->
 </resources>

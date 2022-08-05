@@ -4,6 +4,7 @@ import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
 import com.example.cryptoapp.domain.login.TokenModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
+import com.example.cryptoapp.domain.top_rated_movies.MovieModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -36,5 +37,9 @@ object MovieRepositoryRetrofit {
 
     suspend fun getMovieStars() : MovieStarModel {
         return service.getMovieStars(apiKey)
+    }
+
+    suspend fun getMovie(): MovieModel {
+        return service.getMovie(apiKey)
     }
 }

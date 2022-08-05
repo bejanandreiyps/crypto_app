@@ -1,10 +1,12 @@
 package com.example.cryptoapp
 
+import android.graphics.Movie
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
 import com.example.cryptoapp.domain.login.TokenModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
+import com.example.cryptoapp.domain.top_rated_movies.MovieModel
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -30,5 +32,10 @@ interface MovieService {
     @GET("3/person/popular")
     suspend fun getMovieStars(
         @Query("api_key") api_key: String
-    ) : MovieStarModel
+    ): MovieStarModel
+
+    @GET("/3/movie/top_rated")
+    suspend fun getMovie(
+        @Query("api_key") api_key: String
+    ): MovieModel
 }

@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cryptoapp.adapter.GalleryAdapter
+import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.MovieStarsAdapter
 import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.stars.ActorModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
+import com.example.cryptoapp.domain.top_rated_movies.MovieDetailsModel
+import com.example.cryptoapp.domain.top_rated_movies.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -43,10 +46,12 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             val galleryMoviesSeries = repo.getGalleryMoviesOrSeries()
             val movieStars = repo.getMovieStars()
+            val movieList = repo.getMovie()
             launch(Dispatchers.Main) {
                 populateGallery(galleryMoviesSeries)
                 populateIndicator(6)
                 populateMovieStars(movieStars)
+                populateMovieList(movieList)
             }
         }
     }
@@ -86,5 +91,12 @@ class HomeScreenFragment : Fragment() {
         val stars = movieStars.results.map { ActorModel(name = it.name, profilePath = it.profilePath) }
         movieStarsAdapter.movieStarList = stars
         binding.rvMovieStars.adapter = movieStarsAdapter
+    }
+
+    private fun populateMovieList(movieList: MovieModel) {
+        val movieAdapter = MovieAdapter()
+        val movies = movieList.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        movieAdapter.movieList = movies
+        binding.rvMovie.adapter = movieAdapter
     }
 }
