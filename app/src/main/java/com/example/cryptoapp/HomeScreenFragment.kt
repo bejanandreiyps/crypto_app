@@ -15,8 +15,8 @@ import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.stars.ActorModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
-import com.example.cryptoapp.domain.top_rated_movies.MovieDetailsModel
-import com.example.cryptoapp.domain.top_rated_movies.MovieModel
+import com.example.cryptoapp.domain.movie.MovieDetailsModel
+import com.example.cryptoapp.domain.movie.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -46,12 +46,16 @@ class HomeScreenFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             val galleryMoviesSeries = repo.getGalleryMoviesOrSeries()
             val movieStars = repo.getMovieStars()
-            val movieList = repo.getMovie()
+            val topRatedMovies = repo.getTopRatedMovies()
+            val popularMovies = repo.getPopularMovies()
+            val airingTodayMovies = repo.getAiringTodayMovies()
             launch(Dispatchers.Main) {
                 populateGallery(galleryMoviesSeries)
                 populateIndicator(6)
                 populateMovieStars(movieStars)
-                populateMovieList(movieList)
+                populateTopRatedMovies(topRatedMovies)
+                populatePopularMovies(popularMovies)
+                populateAiringTodayMovies(airingTodayMovies)
             }
         }
     }
@@ -93,10 +97,24 @@ class HomeScreenFragment : Fragment() {
         binding.rvMovieStars.adapter = movieStarsAdapter
     }
 
-    private fun populateMovieList(movieList: MovieModel) {
+    private fun populateTopRatedMovies(topRatedMovies: MovieModel) {
         val movieAdapter = MovieAdapter()
-        val movies = movieList.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        val movies = topRatedMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
         movieAdapter.movieList = movies
-        binding.rvMovie.adapter = movieAdapter
+        binding.rvTopRatedMovies.adapter = movieAdapter
+    }
+
+    private fun populatePopularMovies(popularMovies: MovieModel) {
+        val popularMovieAdapter = MovieAdapter()
+        val movies = popularMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        popularMovieAdapter.movieList = movies
+        binding.rvPopularMovies.adapter = popularMovieAdapter
+    }
+
+    private fun populateAiringTodayMovies(airingMovies: MovieModel) {
+        val airingMovieAdapter = MovieAdapter()
+        val movies = airingMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        airingMovieAdapter.movieList = movies
+        binding.rvAiringToday.adapter = airingMovieAdapter
     }
 }

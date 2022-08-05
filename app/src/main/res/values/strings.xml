@@ -42,7 +42,9 @@
     <string name="enter_credentials">Please enter your credentials</string>
     <string name="deaf_fuck">haha you deaf cunt</string>
     <string name="login">Login</string>
-    <string name="out_in_cinema">Out in cinema</string>
+    <string name="out_in_cinemas">Out in cinemas</string>
     <string name="movie_stars">Stars</string>
     <string name="top_rated_movies">Top Rated Movies</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="airing_today">Airing Today</string>
 </resources>

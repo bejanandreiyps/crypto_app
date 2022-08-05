@@ -1,10 +1,11 @@
 package com.example.cryptoapp
 
+import android.graphics.Movie
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
 import com.example.cryptoapp.domain.login.TokenModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
-import com.example.cryptoapp.domain.top_rated_movies.MovieModel
+import com.example.cryptoapp.domain.movie.MovieModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -39,7 +40,15 @@ object MovieRepositoryRetrofit {
         return service.getMovieStars(apiKey)
     }
 
-    suspend fun getMovie(): MovieModel {
-        return service.getMovie(apiKey)
+    suspend fun getTopRatedMovies(): MovieModel {
+        return service.getTopRatedMovies(apiKey)
+    }
+
+    suspend fun getPopularMovies(): MovieModel {
+        return service.getPopularMovies(apiKey)
+    }
+
+    suspend fun getAiringTodayMovies(): MovieModel {
+        return service.getAiringTodayMovies(apiKey)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.cryptoapp.domain.top_rated_movies
+package com.example.cryptoapp.domain.movie
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

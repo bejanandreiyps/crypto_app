@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeScreenFragment">
+    tools:context=".HomeScreenFragment"
+    android:background="@drawable/background_doodle_extended">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,14 +21,10 @@
 
         <TextView
             android:id="@+id/out_in_cinema"
-            android:text="@string/out_in_cinema"
-            android:textColor="@color/white"
-            android:lineSpacingExtra="-14sp"
-            android:gravity="center_horizontal|center_vertical"
-            android:layout_width="90dp"
-            android:layout_height="23dp"
-            android:background="@drawable/tag_background"
-            android:layout_marginBottom="50dp"
+            android:text="@string/out_in_cinemas"
+            style="@style/OutInCinemasTag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintLeft_toLeftOf="@id/vpGallery"
             app:layout_constraintBottom_toBottomOf="@id/vpGallery"/>
 
@@ -47,7 +44,6 @@
             android:id="@+id/tvMovieStars"
             android:text="@string/movie_stars"
             style="@style/CategoryTag"
-            android:background="@drawable/category_tag"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
@@ -74,11 +70,49 @@
             app:layout_constraintTop_toBottomOf="@id/rvMovieStars"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMovie"
+            android:id="@+id/rvTopRatedMovies"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/tvTopRatedMovies"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+            android:id="@+id/tvPopularMovies"
+            android:text="@string/popular_movies"
+            style="@style/CategoryTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvTopRatedMovies"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPopularMovies"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvPopularMovies"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <TextView
+            android:id="@+id/tvAiringToday"
+            android:text="@string/airing_today"
+            style="@style/CategoryTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvPopularMovies"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAiringToday"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvAiringToday"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 

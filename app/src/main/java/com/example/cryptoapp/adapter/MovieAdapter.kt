@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.databinding.MovieLayoutBinding
-import com.example.cryptoapp.domain.top_rated_movies.MovieDetailsModel
+import com.example.cryptoapp.domain.movie.MovieDetailsModel
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     var movieList = listOf<MovieDetailsModel>()
