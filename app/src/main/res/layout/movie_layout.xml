@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cvMoviePoster"
     app:strokeWidth="3dp"
     app:strokeColor="#00000000"
@@ -23,6 +24,46 @@
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/deaf_fuck"/>
 
+        <com.lid.lib.LabelTextView
+            android:id="@+id/ltvMustWatch"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textColor="#ffffff"
+            app:label_backgroundColor="#91141414"
+            app:label_distance="30dp"
+            app:label_orientation="LEFT_TOP"
+            app:label_text="Must Watch"
+            app:label_textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/vHeart"
+            android:visibility="invisible"
+            android:background="@drawable/ic_baseline_favorite_24"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/vHeartBorder"
+            android:visibility="invisible"
+            android:background="@drawable/ic_baseline_favorite_border_24"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

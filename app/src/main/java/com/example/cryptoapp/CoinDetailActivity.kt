@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.adapter.GridAdapter
 import com.example.cryptoapp.adapter.ListViewAdapter
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
-import com.example.cryptoapp.domain.GridItemTagModel
-import com.example.cryptoapp.domain.LVItemMemberModel
+import com.example.cryptoapp.domain.crypto_details.GridItemTagModel
+import com.example.cryptoapp.domain.crypto_details.LVItemMemberModel
 
 class CoinDetailActivity : AppCompatActivity() {
 
@@ -46,7 +46,7 @@ class CoinDetailActivity : AppCompatActivity() {
         val tagList = details.tags.map { GridItemTagModel(it.name) }
         binding.gridTags.adapter = GridAdapter(this, tagList)
 
-        val teamMembers = details.team.map { LVItemMemberModel(it.name, it.position)}
+        val teamMembers = details.team.map { LVItemMemberModel(it.name, it.position) }
         binding.lvTeamMembers.adapter = ListViewAdapter(this, teamMembers)
     }
 }

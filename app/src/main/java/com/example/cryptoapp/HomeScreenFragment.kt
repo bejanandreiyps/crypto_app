@@ -99,21 +99,21 @@ class HomeScreenFragment : Fragment() {
 
     private fun populateTopRatedMovies(topRatedMovies: MovieModel) {
         val movieAdapter = MovieAdapter()
-        val movies = topRatedMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        val movies = topRatedMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath, voteAverage = it.voteAverage) }
         movieAdapter.movieList = movies
         binding.rvTopRatedMovies.adapter = movieAdapter
     }
 
     private fun populatePopularMovies(popularMovies: MovieModel) {
         val popularMovieAdapter = MovieAdapter()
-        val movies = popularMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        val movies = popularMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath, voteAverage = it.voteAverage) }
         popularMovieAdapter.movieList = movies
         binding.rvPopularMovies.adapter = popularMovieAdapter
     }
 
     private fun populateAiringTodayMovies(airingMovies: MovieModel) {
         val airingMovieAdapter = MovieAdapter()
-        val movies = airingMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath) }
+        val movies = airingMovies.results.map { MovieDetailsModel(title = it.title, posterPath = it.posterPath, voteAverage = it.voteAverage) }
         airingMovieAdapter.movieList = movies
         binding.rvAiringToday.adapter = airingMovieAdapter
     }

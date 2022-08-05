@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.cryptoapp.databinding.TagItemBinding
-import com.example.cryptoapp.domain.GridItemTagModel
+import com.example.cryptoapp.domain.crypto_details.GridItemTagModel
 
 class GridAdapter(context: Context, private val items: List<GridItemTagModel>) :
     ArrayAdapter<GridItemTagModel>(context, 0, items) {

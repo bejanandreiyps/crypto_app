@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.cryptoapp.databinding.TeamMembersItemBinding
-import com.example.cryptoapp.domain.LVItemMemberModel
+import com.example.cryptoapp.domain.crypto_details.LVItemMemberModel
 
 class ListViewAdapter (context: Context, private val items: List<LVItemMemberModel>) :
     ArrayAdapter<LVItemMemberModel>(context, 0, items) {

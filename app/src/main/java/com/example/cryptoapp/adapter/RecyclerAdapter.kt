@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.databinding.CardLayoutBinding
-import com.example.cryptoapp.domain.AffirmationModel
+import com.example.cryptoapp.domain.crypto_details.AffirmationModel
 import com.example.cryptoapp.domain.crypto.CoinModel
 
 class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {

@@ -8,6 +8,8 @@
         <entry key="app/src/main/res/drawable/background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/category_tag.xml" value="0.114" />
         <entry key="app/src/main/res/drawable/ic_background.xml" value="0.234" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.219" />
+        <entry key="app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1905" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/round_box.xml" value="0.243" />
         <entry key="app/src/main/res/drawable/tag_background.xml" value="0.1" />
@@ -23,7 +25,7 @@
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/gallery_image.xml" value="0.20380434782608695" />
-        <entry key="app/src/main/res/layout/movie_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/movie_layout.xml" value="0.375" />
         <entry key="app/src/main/res/layout/movie_stars_layout.xml" value="0.165" />
         <entry key="app/src/main/res/layout/new_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/tag_item.xml" value="0.335" />

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.adapter.RecyclerAdapter
 import com.example.cryptoapp.databinding.ActivityMainBinding
-import com.example.cryptoapp.domain.AffirmationModel
+import com.example.cryptoapp.domain.crypto_details.AffirmationModel
 
 class MainActivity : AppCompatActivity(), RecyclerAdapter.ItemClickListener {
 
