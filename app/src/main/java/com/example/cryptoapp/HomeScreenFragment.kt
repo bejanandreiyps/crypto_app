@@ -45,10 +45,10 @@ class HomeScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch(Dispatchers.IO) {
             val galleryMoviesSeries = repo.getGalleryMoviesOrSeries()
-            val movieStars = repo.getMovieStars()
-            val topRatedMovies = repo.getTopRatedMovies()
-            val popularMovies = repo.getPopularMovies()
-            val airingTodayMovies = repo.getAiringTodayMovies()
+            val movieStars = repo.getMovieStars("en-US", 1)
+            val topRatedMovies = repo.getTopRatedMovies("en-US", 1)
+            val popularMovies = repo.getPopularMovies("en-US", 1)
+            val airingTodayMovies = repo.getAiringTodayMovies("en-US", 1)
             launch(Dispatchers.Main) {
                 populateGallery(galleryMoviesSeries)
                 populateIndicator(6)
@@ -56,6 +56,7 @@ class HomeScreenFragment : Fragment() {
                 populateTopRatedMovies(topRatedMovies)
                 populatePopularMovies(popularMovies)
                 populateAiringTodayMovies(airingTodayMovies)
+                createSearchButton()
             }
         }
     }
@@ -63,6 +64,14 @@ class HomeScreenFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun createSearchButton() {
+        binding.ivSearchIcon.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_container_view_tag, SearchFragment())
+                ?.addToBackStack(null)?.commit()
+        }
     }
 
     private fun populateGallery(trendingMoviesSeries: MovieOrSeriesModel) {

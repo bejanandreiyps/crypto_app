@@ -5,19 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeScreenFragment"
-    android:background="@drawable/background_doodle_extended">
+    android:background="@drawable/pozaok">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryColor"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivUserPhoto"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/logo"
+                android:contentDescription="@string/deaf_string" />
+
+            <ImageView
+                android:id="@+id/ivSearchIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_baseline_search_24"
+                android:contentDescription="@string/deaf_string" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpGallery"
-            android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_width="340dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <TextView
             android:id="@+id/out_in_cinema"
@@ -41,20 +69,22 @@
 
         <TextView
             android:id="@+id/tvMovieStars"
-            android:text="@string/movie_stars"
             style="@style/CategoryTag"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:text="@string/movie_stars"
             app:layout_constraintLeft_toLeftOf="@id/vpGallery"
-            app:layout_constraintTop_toBottomOf="@id/vpGallery"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vpGallery" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMovieStars"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tvMovieStars"
+            app:layout_constraintTop_toTopOf="@id/tvMovieStars"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 

@@ -36,19 +36,26 @@ object MovieRepositoryRetrofit {
         return service.getGalleryMoviesOrSeries(apiKey)
     }
 
-    suspend fun getMovieStars() : MovieStarModel {
-        return service.getMovieStars(apiKey)
+    suspend fun getMovieStars(language: String, page: Int) : MovieStarModel {
+        return service.getMovieStars(apiKey, language, page)
     }
 
-    suspend fun getTopRatedMovies(): MovieModel {
-        return service.getTopRatedMovies(apiKey)
+    suspend fun getTopRatedMovies(language: String, page: Int): MovieModel {
+        return service.getTopRatedMovies(apiKey, language, page)
     }
 
-    suspend fun getPopularMovies(): MovieModel {
-        return service.getPopularMovies(apiKey)
+    suspend fun getPopularMovies(language: String, page: Int): MovieModel {
+        return service.getPopularMovies(apiKey, language, page)
     }
 
-    suspend fun getAiringTodayMovies(): MovieModel {
-        return service.getAiringTodayMovies(apiKey)
+    suspend fun getAiringTodayMovies(language: String, page: Int): MovieModel {
+        return service.getAiringTodayMovies(apiKey, language, page)
+    }
+
+    suspend fun getSearch(language: String, page: Int, query: String): MovieModel {
+        if (query == "") {
+            return MovieModel()
+        }
+        return service.getSearch(apiKey, language, page, query)
     }
 }

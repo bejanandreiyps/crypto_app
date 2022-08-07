@@ -6,7 +6,7 @@
         android:bottomRightRadius="13dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="13dp" />
-    <solid android:color="#ffe41f2d" />
+    <solid android:color="@color/primaryLightColor" />
     <padding
         android:bottom="0dp"
         android:left="0dp"
@@ -14,5 +14,5 @@
         android:top="0dp" />
     <stroke
         android:width="2dp"
-        android:color="#fff7c04a"/>
+        android:color="@color/primaryDarkColor"/>
 </shape>
