@@ -1,6 +1,5 @@
 package com.example.cryptoapp
 
-import android.graphics.Movie
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
 import com.example.cryptoapp.domain.login.TokenModel

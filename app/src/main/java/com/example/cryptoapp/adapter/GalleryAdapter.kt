@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.example.cryptoapp.databinding.GalleryImageBinding
 import com.example.cryptoapp.domain.gallery.GalleryModel
 
-
 class GalleryAdapter : ListAdapter<GalleryModel, GalleryAdapter.GalleryViewHolder>(object :
     DiffUtil.ItemCallback<GalleryModel>() {
     override fun areItemsTheSame(

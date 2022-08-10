@@ -19,7 +19,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
         }
     var images = listOf<AffirmationModel>()
 
-    inner class ViewHolder(private val binding: CardLayoutBinding, listener: ItemClickListener): RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder(private val binding: CardLayoutBinding): RecyclerView.ViewHolder(binding.root),
     View.OnClickListener {
         @SuppressLint("ResourceAsColor")
         fun bind(item: CoinModel, affirmation: AffirmationModel) {
@@ -37,7 +37,7 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = CardLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, listener)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

@@ -10,10 +10,11 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.MovieLayoutBinding
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
 
-class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit) :
+    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     var movieList = listOf<MovieDetailsModel>()
 
-    inner class MovieViewHolder(private val binding: MovieLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieViewHolder(private val binding: MovieLayoutBinding, private val callback: (model: MovieDetailsModel)->Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MovieDetailsModel) {
             val endpoint = "https://image.tmdb.org/t/p/w500"
 
@@ -24,16 +25,17 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 binding.ltvMustWatch.visibility = View.VISIBLE
             }
 
-            var isFavorite = false
             binding.cvMoviePoster.setOnLongClickListener {
                 binding.cvMoviePoster.strokeColor = ContextCompat.getColor(binding.root.context, R.color.primaryColor)
-                if(isFavorite) {
-                    isFavorite = false
+                if(item.isFavorite) {
+                    callback(item)
+                    item.isFavorite = false
                     binding.cvMoviePoster.strokeWidth = 0
                     binding.vHeart.visibility = View.INVISIBLE
                     binding.vHeartBorder.visibility = View.INVISIBLE
                 } else {
-                    isFavorite = true
+                    callback(item)
+                    item.isFavorite = true
                     binding.cvMoviePoster.strokeWidth = 8
                     binding.vHeart.visibility = View.VISIBLE
                     binding.vHeartBorder.visibility = View.VISIBLE
@@ -45,7 +47,7 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = MovieLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding)
+        return MovieViewHolder(binding, callback)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

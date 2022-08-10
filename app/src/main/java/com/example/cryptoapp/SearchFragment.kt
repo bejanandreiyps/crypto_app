@@ -60,7 +60,7 @@ class SearchFragment : Fragment() {
     private fun displayResults(movies: List<MovieDetailsModel>) {
         val resultGridLayoutManager = GridLayoutManager(activity, 4)
         binding.rvResults.layoutManager = resultGridLayoutManager
-        val resultsMovieAdapter = MovieAdapter()
+        val resultsMovieAdapter = MovieAdapter {model -> println(model.name)}
         resultsMovieAdapter.movieList = movies
         binding.rvResults.adapter = resultsMovieAdapter
     }
