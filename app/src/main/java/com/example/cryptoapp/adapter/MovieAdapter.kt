@@ -25,6 +25,13 @@ class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit) :
                 binding.ltvMustWatch.visibility = View.VISIBLE
             }
 
+            if(item.isFavorite) {
+                binding.cvMoviePoster.strokeColor = ContextCompat.getColor(binding.root.context, R.color.primaryColor)
+                binding.cvMoviePoster.strokeWidth = 8
+                binding.vHeart.visibility = View.VISIBLE
+                binding.vHeartBorder.visibility = View.VISIBLE
+            }
+
             binding.cvMoviePoster.setOnLongClickListener {
                 binding.cvMoviePoster.strokeColor = ContextCompat.getColor(binding.root.context, R.color.primaryColor)
                 if(item.isFavorite) {

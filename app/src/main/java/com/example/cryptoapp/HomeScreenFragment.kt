@@ -52,15 +52,11 @@ class HomeScreenFragment : Fragment() {
             val galleryMoviesSeries = repo.getGalleryMoviesOrSeries()
             val movieStars = repo.getMovieStars("en-US", 1)
             val topRatedMovies = repo.getTopRatedMovies("en-US", 1)
-
-            for(movie in topRatedMovies.results) {
-                val movieDataBaseModel: MovieDataBaseModel ?= dao.queryAfterId(movie.id.toString())
-                if(movieDataBaseModel?.movieIsFavorite == true) {
-                    movie.isFavorite = true
-                }
-            }
+            syncFavorites(topRatedMovies)
             val popularMovies = repo.getPopularMovies("en-US", 1)
+            syncFavorites(popularMovies)
             val airingTodayMovies = repo.getAiringTodayMovies("en-US", 1)
+            syncFavorites(airingTodayMovies)
             //val rickMorty = apolloClient.query(RickMortyQuery()).execute()
 
             launch(Dispatchers.Main) {
@@ -79,6 +75,17 @@ class HomeScreenFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun syncFavorites(rvMovies: MovieModel) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            for (movie in rvMovies.results) {
+                val movieDataBaseModel: MovieDataBaseModel? = dao.queryAfterId(movie.id.toString())
+                if (movieDataBaseModel?.movieIsFavorite == true) {
+                    movie.isFavorite = true
+                }
+            }
+        }
     }
 
     private fun createSearchButton() {
@@ -145,33 +152,20 @@ class HomeScreenFragment : Fragment() {
     private fun populateTopRatedMovies(topRatedMovies: MovieModel) {
         val movieAdapter = MovieAdapter (callback)
         val movies = topRatedMovies.results
-
         movieAdapter.movieList = movies
         binding.rvTopRatedMovies.adapter = movieAdapter
     }
 
     private fun populatePopularMovies(popularMovies: MovieModel) {
         val popularMovieAdapter = MovieAdapter ( callback )
-        val movies = popularMovies.results.map {
-            MovieDetailsModel(
-                title = it.title,
-                posterPath = it.posterPath,
-                voteAverage = it.voteAverage
-            )
-        }
+        val movies = popularMovies.results
         popularMovieAdapter.movieList = movies
         binding.rvPopularMovies.adapter = popularMovieAdapter
     }
 
     private fun populateAiringTodayMovies(airingMovies: MovieModel) {
         val airingMovieAdapter = MovieAdapter ( callback )
-        val movies = airingMovies.results.map {
-            MovieDetailsModel(
-                title = it.title,
-                posterPath = it.posterPath,
-                voteAverage = it.voteAverage
-            )
-        }
+        val movies = airingMovies.results
         airingMovieAdapter.movieList = movies
         binding.rvAiringToday.adapter = airingMovieAdapter
     }
