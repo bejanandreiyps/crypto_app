@@ -1,6 +1,8 @@
 package com.example.cryptoapp.dao
 
 import androidx.room.*
+import com.example.cryptoapp.database.MovieDataBaseModel
+import com.example.cryptoapp.database.TABLE_NAME
 
 @Dao
 interface MovieDao {
