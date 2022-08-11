@@ -1,10 +1,12 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoapp.FileUtils
+import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.RecyclerAdapter
 import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.example.cryptoapp.domain.crypto_details.AffirmationModel

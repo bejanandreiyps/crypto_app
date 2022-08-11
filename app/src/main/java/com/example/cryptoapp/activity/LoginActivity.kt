@@ -1,9 +1,10 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
+import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityLoginBinding
+import com.example.cryptoapp.fragment.LoginFragment
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

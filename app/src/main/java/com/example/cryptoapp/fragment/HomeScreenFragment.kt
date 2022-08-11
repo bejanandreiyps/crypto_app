@@ -1,4 +1,4 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.example.cryptoapp.database.DatabaseProvider
+import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.MovieStarsAdapter
 import com.example.cryptoapp.dao.MovieDao
-import com.example.cryptoapp.dao.MovieDataBaseModel
-import com.example.cryptoapp.dao.MovieDatabase
+import com.example.cryptoapp.database.MovieDataBaseModel
+import com.example.cryptoapp.database.MovieDatabase
 import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
@@ -49,13 +52,13 @@ class HomeScreenFragment : Fragment() {
         movieDataBase = DatabaseProvider.getInstance(requireContext())!!
         dao = movieDataBase.getMovieDao()
         lifecycleScope.launch(Dispatchers.IO) {
-            val galleryMoviesSeries = repo.getGalleryMoviesOrSeries()
-            val movieStars = repo.getMovieStars("en-US", 1)
-            val topRatedMovies = repo.getTopRatedMovies("en-US", 1)
+            val galleryMoviesSeries = MovieRepositoryRetrofit.getGalleryMoviesOrSeries()
+            val movieStars = MovieRepositoryRetrofit.getMovieStars("en-US", 1)
+            val topRatedMovies = MovieRepositoryRetrofit.getTopRatedMovies("en-US", 1)
             syncFavorites(topRatedMovies)
-            val popularMovies = repo.getPopularMovies("en-US", 1)
+            val popularMovies = MovieRepositoryRetrofit.getPopularMovies("en-US", 1)
             syncFavorites(popularMovies)
-            val airingTodayMovies = repo.getAiringTodayMovies("en-US", 1)
+            val airingTodayMovies = MovieRepositoryRetrofit.getAiringTodayMovies("en-US", 1)
             syncFavorites(airingTodayMovies)
             //val rickMorty = apolloClient.query(RickMortyQuery()).execute()
 

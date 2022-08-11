@@ -1,8 +1,7 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.database
 
 import android.content.Context
 import androidx.room.Room
-import com.example.cryptoapp.dao.MovieDatabase
 
 
 object DatabaseProvider {

@@ -1,10 +1,12 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.fragment
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentLoginBinding
 import com.example.cryptoapp.domain.login.CredentialsModel
 import kotlinx.coroutines.Dispatchers
@@ -27,10 +29,10 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.loginButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val token = repo.getToken()
+                val token = MovieRepositoryRetrofit.getToken()
                 val credentials =
                     CredentialsModel("andreibejanyps", "tmdbmovies", token.requestToken)
-                repo.postLogin(credentials)
+                MovieRepositoryRetrofit.postLogin(credentials)
                 val homeScreenFragment = HomeScreenFragment()
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.replace(
