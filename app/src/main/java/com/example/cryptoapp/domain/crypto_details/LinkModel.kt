@@ -7,7 +7,7 @@ data class LinkModel (
   val facebook: List<String> = emptyList(),
   val reddit: List<String> = emptyList(),
   @SerializedName("source_code")
-  val source_code: List<String> = emptyList(),
+  val sourceCode: List<String> = emptyList(),
   val website: List<String> = emptyList(),
   val youtube: List<String> = emptyList()
-) {}
+)

@@ -29,7 +29,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.loginButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val token = MovieRepositoryRetrofit.getToken()
+                val token = repo.getToken()
                 val credentials =
                     CredentialsModel("andreibejanyps", "tmdbmovies", token.requestToken)
                 MovieRepositoryRetrofit.postLogin(credentials)

@@ -1,4 +1,4 @@
-package com.example.cryptoapp.domain.crypto_details
+package com.example.cryptoapp.util
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

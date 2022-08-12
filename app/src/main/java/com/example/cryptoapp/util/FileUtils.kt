@@ -1,4 +1,4 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.util
 
 import android.content.Context
 import com.example.cryptoapp.domain.crypto.CoinDetailsModel

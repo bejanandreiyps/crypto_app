@@ -35,5 +35,5 @@ data class MovieDetailsModel(
     @SerialName("first_air_date")
     val firstAirDate: String = "",
     val name: String = "",
-    var isFavorite: Boolean = false
+    val isFavorite: Boolean = false
 ) {}

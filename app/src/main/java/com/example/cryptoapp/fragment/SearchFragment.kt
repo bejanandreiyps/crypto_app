@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.database.DatabaseProvider
 import com.example.cryptoapp.MovieRepositoryRetrofit
 import com.example.cryptoapp.adapter.MovieAdapter
-import com.example.cryptoapp.dao.MovieDao
 import com.example.cryptoapp.database.MovieDataBaseModel
-import com.example.cryptoapp.database.MovieDatabase
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.movie.MovieModel
@@ -27,13 +26,16 @@ class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
 
-    private lateinit var movieDataBase: MovieDatabase
-    private lateinit var dao : MovieDao
+    private val movieDataBase by lazy {
+        DatabaseProvider.getInstance(requireContext())!!
+    }
+    private val dao by lazy {
+        movieDataBase.getMovieDao()
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
     private val mdbRepo = MovieRepositoryRetrofit
 
     override fun onCreateView(
@@ -57,29 +59,18 @@ class SearchFragment : Fragment() {
     }
 
     private fun loadSearchResults(query: String) {
-        movieDataBase = DatabaseProvider.getInstance(requireContext())!!
-        dao = movieDataBase.getMovieDao()
         lifecycleScope.launch(Dispatchers.IO) {
             //Search for the movies
-            val searchResults1 = MovieRepositoryRetrofit.getSearch("en-US", 1, query)
+            val searchResults1 = mdbRepo.getSearch("en-US", 1, query)
             syncFavorites(searchResults1)
-            val searchResults2 = MovieRepositoryRetrofit.getSearch("en-US", 2, query)
+            val searchResults2 = mdbRepo.getSearch("en-US", 2, query)
             syncFavorites(searchResults2)
             //Update UI
             launch(Dispatchers.Main) {
-                displayResults((searchResults1.results + searchResults2.results).filter { it.posterPath?.isNotEmpty()
-                    ?: false })
-            }
-        }
-    }
-
-    private fun syncFavorites(rvMovies: MovieModel) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            for (movie in rvMovies.results) {
-                val movieDataBaseModel: MovieDataBaseModel? = dao.queryAfterId(movie.id.toString())
-                if (movieDataBaseModel?.movieIsFavorite == true) {
-                    movie.isFavorite = true
-                }
+                displayResults((searchResults1.results + searchResults2.results).filter {
+                    it.posterPath?.isNotEmpty()
+                        ?: false
+                })
             }
         }
     }
@@ -87,7 +78,7 @@ class SearchFragment : Fragment() {
     private fun displayResults(movies: List<MovieDetailsModel>) {
         val resultGridLayoutManager = GridLayoutManager(activity, 4)
         binding.rvResults.layoutManager = resultGridLayoutManager
-        val resultsMovieAdapter = MovieAdapter (callback)
+        val resultsMovieAdapter = MovieAdapter { model -> callback(model, binding.rvResults) }
         resultsMovieAdapter.movieList = movies
         binding.rvResults.adapter = resultsMovieAdapter
     }
@@ -106,7 +97,8 @@ class SearchFragment : Fragment() {
 
                 job = lifecycleScope.launch(Dispatchers.IO) {
                     delay(350)
-                    if(editText?.isNotEmpty() == true) {
+                    loadSearchResults(if (editText?.isNotEmpty() == true) editText.toString() else "")
+                    if (editText?.isNotEmpty() == true) {
                         loadSearchResults(editText.toString())
                     } else {
                         loadSearchResults("")
@@ -116,12 +108,24 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private val callback: (movieModel: MovieDetailsModel) -> Unit = {
+    private val callback: (movieModel: MovieDetailsModel, view: RecyclerView) -> Unit = { model, view->
         lifecycleScope.launch {
-            if(it.isFavorite) {
-                dao.deleteOne(it.id.toString())
+            if(model.isFavorite) {
+                dao.deleteOne(model.id.toString())
             } else {
-                dao.insertOne(MovieDataBaseModel(id = it.id, movieTitle = it.title, movieIsFavorite = true))
+                dao.insertOne(MovieDataBaseModel(id = model.id, movieTitle = model.title, movieIsFavorite = true))
+            }
+        }
+        (view.adapter as? MovieAdapter)?.modifyElement(model)
+    }
+
+    private fun syncFavorites(rvMovies: MovieModel) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            rvMovies.results.map { movie ->
+                dao.queryAfterId(movie.id.toString())?.let {
+                    return@map movie.copy(isFavorite = true)
+                }
+                return@map movie
             }
         }
     }

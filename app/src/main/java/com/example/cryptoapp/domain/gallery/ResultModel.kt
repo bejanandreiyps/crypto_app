@@ -36,5 +36,4 @@ data class ResultModel(
     val voteAverage: Double = 0.0,
     @SerialName("vote_count")
     val valueCount: Int = 0
-) {
-}
+)

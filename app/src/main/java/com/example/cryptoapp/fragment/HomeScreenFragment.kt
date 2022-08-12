@@ -6,17 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.apollographql.apollo3.api.ApolloResponse
 import com.example.cryptoapp.database.DatabaseProvider
 import com.example.cryptoapp.MovieRepositoryRetrofit
 import com.example.cryptoapp.R
+import com.example.cryptoapp.RickMortyQuery
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.MovieStarsAdapter
-import com.example.cryptoapp.dao.MovieDao
+import com.example.cryptoapp.adapter.RickMortyAdapter
+import com.example.cryptoapp.apollo.apolloClient
 import com.example.cryptoapp.database.MovieDataBaseModel
-import com.example.cryptoapp.database.MovieDatabase
 import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
+import com.example.cryptoapp.domain.RickMortyCharacterModel
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.stars.ActorModel
@@ -32,8 +36,13 @@ import kotlinx.coroutines.launch
 class HomeScreenFragment : Fragment() {
 
     private var _binding: FragmentHomeScreenBinding? = null
-    private lateinit var movieDataBase: MovieDatabase
-    private lateinit var dao : MovieDao
+    //TODO: use by lazy{} if you can , see Bogdan's case
+    private val movieDataBase by lazy {
+        DatabaseProvider.getInstance(requireContext())
+    }
+    private val dao by lazy {
+        movieDataBase?.getMovieDao()!!
+    }
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -42,34 +51,26 @@ class HomeScreenFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        movieDataBase = DatabaseProvider.getInstance(requireContext())!!
-        dao = movieDataBase.getMovieDao()
         lifecycleScope.launch(Dispatchers.IO) {
-            val galleryMoviesSeries = MovieRepositoryRetrofit.getGalleryMoviesOrSeries()
-            val movieStars = MovieRepositoryRetrofit.getMovieStars("en-US", 1)
-            val topRatedMovies = MovieRepositoryRetrofit.getTopRatedMovies("en-US", 1)
-            syncFavorites(topRatedMovies)
-            val popularMovies = MovieRepositoryRetrofit.getPopularMovies("en-US", 1)
-            syncFavorites(popularMovies)
-            val airingTodayMovies = MovieRepositoryRetrofit.getAiringTodayMovies("en-US", 1)
-            syncFavorites(airingTodayMovies)
-            //val rickMorty = apolloClient.query(RickMortyQuery()).execute()
+            val rickMorty = apolloClient.query(RickMortyQuery()).execute()
 
             launch(Dispatchers.Main) {
-                populateGallery(galleryMoviesSeries)
-                populateIndicator(6)
-                //populateRickMorty(rickMorty)
-                populateMovieStars(movieStars)
-                populateTopRatedMovies(topRatedMovies)
-                populatePopularMovies(popularMovies)
-                populateAiringTodayMovies(airingTodayMovies)
+                populateGallery(repo.getGalleryMoviesOrSeries())
+                populateIndicator()
+                populateRickMorty(rickMorty)
+                populateMovieStars(repo.getMovieStars("en-US", 1))
+
+                populateMovieRecyclerView(repo.getTopRatedMovies("en-US", 1), binding.rvTopRatedMovies)
+                populateMovieRecyclerView(repo.getPopularMovies("en-US", 1), binding.rvPopularMovies)
+                populateMovieRecyclerView(repo.getAiringTodayMovies("en-US", 1), binding.rvAiringToday)
+
                 createSearchButton()
             }
         }
@@ -78,17 +79,6 @@ class HomeScreenFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun syncFavorites(rvMovies: MovieModel) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            for (movie in rvMovies.results) {
-                val movieDataBaseModel: MovieDataBaseModel? = dao.queryAfterId(movie.id.toString())
-                if (movieDataBaseModel?.movieIsFavorite == true) {
-                    movie.isFavorite = true
-                }
-            }
-        }
     }
 
     private fun createSearchButton() {
@@ -112,7 +102,7 @@ class HomeScreenFragment : Fragment() {
         binding.vpGallery.adapter = galleryAdapter
     }
 
-    /*private fun populateRickMorty(rickMorty: ApolloResponse<RickMortyQuery.Data>) {
+    private fun populateRickMorty(rickMorty: ApolloResponse<RickMortyQuery.Data>) {
         val rickMortyAdapter = RickMortyAdapter()
         val rms = rickMorty.data?.characters?.results?.map {
             RickMortyCharacterModel(
@@ -124,9 +114,9 @@ class HomeScreenFragment : Fragment() {
             rickMortyAdapter.rmList = rms
         }
         binding.rvRickMorty.adapter = rickMortyAdapter
-    }*/
+    }
 
-    private fun populateIndicator(size: Int) {
+    private fun populateIndicator() {
         binding.vpGallery.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageScrollStateChanged(state: Int) {
                 super.onPageScrollStateChanged(state)
@@ -139,7 +129,7 @@ class HomeScreenFragment : Fragment() {
             }
         })
         binding.ivGalleryIndicator.setPageSize(
-            size
+            6
         )
         binding.ivGalleryIndicator.notifyDataChanged()
     }
@@ -152,34 +142,36 @@ class HomeScreenFragment : Fragment() {
         binding.rvMovieStars.adapter = movieStarsAdapter
     }
 
-    private fun populateTopRatedMovies(topRatedMovies: MovieModel) {
-        val movieAdapter = MovieAdapter (callback)
-        val movies = topRatedMovies.results
-        movieAdapter.movieList = movies
-        binding.rvTopRatedMovies.adapter = movieAdapter
-    }
-
-    private fun populatePopularMovies(popularMovies: MovieModel) {
-        val popularMovieAdapter = MovieAdapter ( callback )
-        val movies = popularMovies.results
-        popularMovieAdapter.movieList = movies
-        binding.rvPopularMovies.adapter = popularMovieAdapter
-    }
-
-    private fun populateAiringTodayMovies(airingMovies: MovieModel) {
-        val airingMovieAdapter = MovieAdapter ( callback )
-        val movies = airingMovies.results
-        airingMovieAdapter.movieList = movies
-        binding.rvAiringToday.adapter = airingMovieAdapter
-    }
-
-    private val callback: (movieModel: MovieDetailsModel) -> Unit = {
-        lifecycleScope.launch {
-            if(it.isFavorite) {
-                dao.deleteOne(it.id.toString())
-            } else {
-                dao.insertOne(MovieDataBaseModel(id = it.id, movieTitle = it.title, movieIsFavorite = true))
+    private fun populateMovieRecyclerView(movieList: MovieModel, view: RecyclerView) {
+        val movieAdapter = MovieAdapter { model -> callback(model, view) }
+        syncFavorites(movieList) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                movieAdapter.movieList = it
             }
+        }
+        view.adapter = movieAdapter
+    }
+
+    private val callback: (movieModel: MovieDetailsModel, view: RecyclerView) -> Unit = { model, view->
+        lifecycleScope.launch {
+            if(model.isFavorite) {
+                dao.deleteOne(model.id.toString())
+            } else {
+                dao.insertOne(MovieDataBaseModel(id = model.id, movieTitle = model.title, movieIsFavorite = true))
+            }
+        }
+        (view.adapter as? MovieAdapter)?.modifyElement(model)
+    }
+
+    private fun syncFavorites(rvMovies: MovieModel, callback: (model: List<MovieDetailsModel>)->Unit) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val movies = rvMovies.results.map { movie ->
+                dao.queryAfterId(movie.id.toString())?.let {
+                    return@map movie.copy(isFavorite = true)
+                }
+                return@map movie
+            }
+            callback(movies)
         }
     }
 }

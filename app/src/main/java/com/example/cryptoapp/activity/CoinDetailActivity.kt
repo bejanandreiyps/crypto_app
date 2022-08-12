@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cryptoapp.FileUtils
+import com.example.cryptoapp.util.FileUtils
 import com.example.cryptoapp.adapter.GridAdapter
 import com.example.cryptoapp.adapter.ListViewAdapter
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
@@ -21,16 +21,11 @@ class CoinDetailActivity : AppCompatActivity() {
         binding = ActivityCoinDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val idCoin = intent.getStringExtra("id_coin")
-        val fileName = idCoin?.replace("-", "_")
-        val fileId = resources.getIdentifier(fileName, "raw", packageName)
-        val details = FileUtils.getCryptoCoinDetails(this, fileId)
+        val details = FileUtils.getCryptoCoinDetails(this, resources.getIdentifier(intent.getStringExtra("id_coin")?.replace("-", "_"), "raw", packageName))
 
-        val headerString = "${details.rank}. ${details.name} (${details.symbol})"
-        binding.header.text = headerString
+        binding.header.text = "${details.rank}. ${details.name} (${details.symbol})"
 
-        val descriptionString = details.description
-        binding.description.text = descriptionString
+        binding.description.text = details.description
 
         if(details.isActive) {
             binding.active.let {
