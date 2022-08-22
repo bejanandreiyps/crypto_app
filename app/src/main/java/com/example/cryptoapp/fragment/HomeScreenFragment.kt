@@ -1,42 +1,45 @@
 package com.example.cryptoapp.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo3.api.ApolloResponse
 import com.example.cryptoapp.database.DatabaseProvider
-import com.example.cryptoapp.MovieRepositoryRetrofit
 import com.example.cryptoapp.R
 import com.example.cryptoapp.RickMortyQuery
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.MovieStarsAdapter
 import com.example.cryptoapp.adapter.RickMortyAdapter
-import com.example.cryptoapp.apollo.apolloClient
 import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
 import com.example.cryptoapp.domain.RickMortyCharacterModel
 import com.example.cryptoapp.domain.gallery.GalleryModel
-import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
-import com.example.cryptoapp.domain.stars.ActorModel
-import com.example.cryptoapp.domain.stars.MovieStarModel
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.movie.MovieModel
+import com.example.cryptoapp.domain.stars.ActorModel
+import com.example.cryptoapp.view_model.HomeScreenViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class HomeScreenFragment : Fragment() {
+object HomeScreenFragment : Fragment() {
 
+    @SuppressLint("StaticFieldLeak")
     private var _binding: FragmentHomeScreenBinding? = null
-    //TODO: use by lazy{} if you can , see Bogdan's case
     private val movieDataBase by lazy {
         DatabaseProvider.getInstance(requireContext())
     }
@@ -46,7 +49,8 @@ class HomeScreenFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val repo = MovieRepositoryRetrofit
+    private val viewModel: HomeScreenViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,22 +62,16 @@ class HomeScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch(Dispatchers.IO) {
-            val rickMorty = apolloClient.query(RickMortyQuery()).execute()
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.homeScreenViewModel = viewModel
 
-            launch(Dispatchers.Main) {
-                populateGallery(repo.getGalleryMoviesOrSeries())
-                populateIndicator()
-                populateRickMorty(rickMorty)
-                populateMovieStars(repo.getMovieStars("en-US", 1))
-
-                populateMovieRecyclerView(repo.getTopRatedMovies("en-US", 1), binding.rvTopRatedMovies)
-                populateMovieRecyclerView(repo.getPopularMovies("en-US", 1), binding.rvPopularMovies)
-                populateMovieRecyclerView(repo.getAiringTodayMovies("en-US", 1), binding.rvAiringToday)
-
-                createSearchButton()
-            }
-        }
+        createObservers()
+        viewModel.populateGallery()
+        viewModel.populateActors()
+        viewModel.populatePopularMovies()
+        viewModel.populateTopRatedMovies()
+        viewModel.populateAiringMovies()
+        createSearchButton()
     }
 
     override fun onDestroyView() {
@@ -81,39 +79,36 @@ class HomeScreenFragment : Fragment() {
         _binding = null
     }
 
-    private fun createSearchButton() {
-        binding.ivSearchIcon.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_container_view_tag, SearchFragment())
-                ?.addToBackStack(null)?.commit()
+    private fun createObservers() {
+        viewModel.gallery.observe(viewLifecycleOwner) { list ->
+            populateGallery(list)
+            populateIndicator()
+        }
+        viewModel.actors.observe(viewLifecycleOwner) { list ->
+            populateMovieStars(list)
+        }
+        viewModel.popularMovies.observe(viewLifecycleOwner) { list ->
+            populateMovieRecyclerView(list, binding.rvPopularMovies)
+        }
+        viewModel.topRatedMovies.observe(viewLifecycleOwner) { list ->
+            populateMovieRecyclerView(list, binding.rvTopRatedMovies)
+        }
+        viewModel.airingMovies.observe(viewLifecycleOwner) { list ->
+            populateMovieRecyclerView(list, binding.rvAiringToday)
         }
     }
 
-    private fun populateGallery(trendingMoviesSeries: MovieOrSeriesModel) {
+    private fun populateGallery(trendingMoviesSeries: List<GalleryModel>) {
         val galleryAdapter = GalleryAdapter()
-        val gallery = trendingMoviesSeries.results.map {
+        val gallery = trendingMoviesSeries.map {
             GalleryModel(
-                it.backdropPath,
+                it.imageUrl,
                 it.title,
                 it.releaseDate
             )
         }.take(6)
         galleryAdapter.submitList(gallery)
         binding.vpGallery.adapter = galleryAdapter
-    }
-
-    private fun populateRickMorty(rickMorty: ApolloResponse<RickMortyQuery.Data>) {
-        val rickMortyAdapter = RickMortyAdapter()
-        val rms = rickMorty.data?.characters?.results?.map {
-            RickMortyCharacterModel(
-                name = it?.name!!,
-                image = it.image!!
-            )
-        }
-        if (rms != null) {
-            rickMortyAdapter.rmList = rms
-        }
-        binding.rvRickMorty.adapter = rickMortyAdapter
     }
 
     private fun populateIndicator() {
@@ -134,16 +129,16 @@ class HomeScreenFragment : Fragment() {
         binding.ivGalleryIndicator.notifyDataChanged()
     }
 
-    private fun populateMovieStars(movieStars: MovieStarModel) {
+    private fun populateMovieStars(movieStars: List<ActorModel>) {
         val movieStarsAdapter = MovieStarsAdapter()
         val stars =
-            movieStars.results.map { ActorModel(name = it.name, profilePath = it.profilePath) }
+            movieStars.map { ActorModel(name = it.name, profilePath = it.profilePath) }
         movieStarsAdapter.movieStarList = stars
         binding.rvMovieStars.adapter = movieStarsAdapter
     }
 
     private fun populateMovieRecyclerView(movieList: MovieModel, view: RecyclerView) {
-        val movieAdapter = MovieAdapter { model -> callback(model, view) }
+        val movieAdapter = MovieAdapter ({ model -> callback(model, view)}, { modelDetails -> callbackDetails(modelDetails, view) })
         syncFavorites(movieList) {
             lifecycleScope.launch(Dispatchers.Main) {
                 movieAdapter.movieList = it
@@ -151,6 +146,28 @@ class HomeScreenFragment : Fragment() {
         }
         view.adapter = movieAdapter
     }
+
+    private fun createSearchButton() {
+        binding.ivSearchIcon.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_login, SearchFragment)
+                ?.addToBackStack(null)?.commit()
+        }
+    }
+
+//    private fun populateRickMorty(rickMorty: ApolloResponse<RickMortyQuery.Data>) {
+//        val rickMortyAdapter = RickMortyAdapter()
+//        val rms = rickMorty.data?.characters?.results?.map {
+//            RickMortyCharacterModel(
+//                name = it?.name!!,
+//                image = it.image!!
+//            )
+//        }
+//        if (rms != null) {
+//            rickMortyAdapter.rmList = rms
+//        }
+//        binding.rvRickMorty.adapter = rickMortyAdapter
+//    }
 
     private val callback: (movieModel: MovieDetailsModel, view: RecyclerView) -> Unit = { model, view->
         lifecycleScope.launch {
@@ -161,6 +178,12 @@ class HomeScreenFragment : Fragment() {
             }
         }
         (view.adapter as? MovieAdapter)?.modifyElement(model)
+    }
+
+    private val callbackDetails: (movieModel: MovieDetailsModel, view: RecyclerView) -> Unit = { model, view->
+        lifecycleScope.launch {
+            findNavController().navigate(R.id.movieDetailsFragment)
+        }
     }
 
     private fun syncFavorites(rvMovies: MovieModel, callback: (model: List<MovieDetailsModel>)->Unit) {

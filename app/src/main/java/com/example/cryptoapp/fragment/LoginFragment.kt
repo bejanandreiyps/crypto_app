@@ -1,25 +1,26 @@
 package com.example.cryptoapp.fragment
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
-import com.example.cryptoapp.MovieRepositoryRetrofit
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import com.example.cryptoapp.view_model.LoginViewModel
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentLoginBinding
-import com.example.cryptoapp.domain.login.CredentialsModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.cryptoapp.view_model.LoginState
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    val repo = MovieRepositoryRetrofit
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
@@ -27,27 +28,53 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.loginViewModel = viewModel
         binding.loginButton.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val token = repo.getToken()
-                val credentials =
-                    CredentialsModel("andreibejanyps", "tmdbmovies", token.requestToken)
-                MovieRepositoryRetrofit.postLogin(credentials)
-                val homeScreenFragment = HomeScreenFragment()
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(
-                        R.id.fragment_container_view_tag,
-                        homeScreenFragment,
-                        "homeScreenFragment"
-                    )
-                    ?.addToBackStack(null)
-                    ?.commit()
-            }
+            viewModel.login()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(
+                    R.id.fragment_login,
+                    HomeScreenFragment,
+                    "homeScreenFragment"
+                )
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            loginStateObserver(state)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    @SuppressLint("SetTextI18n")
+    private fun loginStateObserver(state: LoginState) {
+        when (state) {
+            is LoginState.Error -> {
+                binding.loginButton.text = "Login"
+                binding.loginButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+
+                Toast.makeText(
+                    requireContext(),
+                    state.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            LoginState.InProgress -> {
+                binding.loginButton.text = "In progress"
+                binding.loginButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryTextColor))
+            }
+            LoginState.Success -> {
+                binding.loginButton.text = "Login"
+                binding.loginButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_login, HomeScreenFragment)
+                    ?.commit()
+            }
+        }
     }
 }

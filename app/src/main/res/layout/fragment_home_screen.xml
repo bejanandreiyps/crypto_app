@@ -1,160 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.HomeScreenFragment"
-    android:background="@drawable/pozaok">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="homeScreenViewModel"
+            type="com.example.cryptoapp.view_model.HomeScreenViewModel"
+            />
+    </data>
+
+    <ScrollView
+        android:id="@+id/home"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="@drawable/pozaok">
 
-            <ImageView
-                android:id="@+id/ivUserPhoto"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/logo"
-                android:contentDescription="@string/deaf_string" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primaryColor"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/ivSearchIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_baseline_search_24"
-                android:contentDescription="@string/deaf_string" />
+                <ImageView
+                    android:id="@+id/ivUserPhoto"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/logo"
+                    android:contentDescription="@string/deaf_string" />
 
-        </androidx.appcompat.widget.Toolbar>
+                <ImageView
+                    android:id="@+id/ivSearchIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_baseline_search_24"
+                    android:contentDescription="@string/deaf_string" />
+
+            </androidx.appcompat.widget.Toolbar>
 
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vpGallery"
-            android:layout_width="340dp"
-            android:layout_height="180dp"
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/vpGallery"
+                android:layout_width="340dp"
+                android:layout_height="180dp"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRickMorty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@id/vpGallery"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRickMorty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/vpGallery"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-        <TextView
-            android:id="@+id/out_in_cinema"
-            android:text="@string/out_in_cinemas"
-            style="@style/OutInCinemasTag"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="@id/vpGallery"
-            app:layout_constraintBottom_toBottomOf="@id/vpGallery"/>
+            <TextView
+                android:id="@+id/out_in_cinema"
+                android:text="@string/out_in_cinemas"
+                style="@style/OutInCinemasTag"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toLeftOf="@id/vpGallery"
+                app:layout_constraintBottom_toBottomOf="@id/vpGallery"/>
 
-        <com.zhpan.indicator.IndicatorView
-            android:id="@+id/ivGalleryIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:vpi_slider_radius="5dp"
-            android:layout_marginBottom="20dp"
-            app:vpi_slider_checked_color="@color/white"
-            app:layout_constraintBottom_toBottomOf="@id/vpGallery"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            <com.zhpan.indicator.IndicatorView
+                android:id="@+id/ivGalleryIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:vpi_slider_radius="5dp"
+                android:layout_marginBottom="20dp"
+                app:vpi_slider_checked_color="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/vpGallery"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/tvMovieStars"
-            style="@style/CategoryTag"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:text="@string/movie_stars"
-            app:layout_constraintLeft_toLeftOf="@id/vpGallery"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvRickMorty" />
+            <TextView
+                android:id="@+id/tvMovieStars"
+                style="@style/CategoryTag"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:text="@string/movie_stars"
+                app:layout_constraintLeft_toLeftOf="@id/vpGallery"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvRickMorty" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMovieStars"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toTopOf="@id/tvMovieStars"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMovieStars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvMovieStars"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-        <TextView
-            android:id="@+id/tvTopRatedMovies"
-            android:text="@string/top_rated_movies"
-            style="@style/CategoryTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvMovieStars"/>
+            <TextView
+                android:id="@+id/tvTopRatedMovies"
+                android:text="@string/top_rated_movies"
+                style="@style/CategoryTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvMovieStars"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTopRatedMovies"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tvTopRatedMovies"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTopRatedMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvTopRatedMovies"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-        <TextView
-            android:id="@+id/tvPopularMovies"
-            android:text="@string/popular_movies"
-            style="@style/CategoryTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvTopRatedMovies"/>
+            <TextView
+                android:id="@+id/tvPopularMovies"
+                android:text="@string/popular_movies"
+                style="@style/CategoryTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvTopRatedMovies"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPopularMovies"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tvPopularMovies"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPopularMovies"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvPopularMovies"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-        <TextView
-            android:id="@+id/tvAiringToday"
-            android:text="@string/airing_today"
-            style="@style/CategoryTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvPopularMovies"/>
+            <TextView
+                android:id="@+id/tvAiringToday"
+                android:text="@string/airing_today"
+                style="@style/CategoryTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvPopularMovies"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAiringToday"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tvAiringToday"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAiringToday"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvAiringToday"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

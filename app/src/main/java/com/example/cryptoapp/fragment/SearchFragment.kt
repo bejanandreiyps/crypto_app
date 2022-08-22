@@ -1,5 +1,6 @@
 package com.example.cryptoapp.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.database.DatabaseProvider
 import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.databinding.FragmentSearchBinding
@@ -22,8 +24,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SearchFragment : Fragment() {
+object SearchFragment : Fragment() {
 
+    @SuppressLint("StaticFieldLeak")
     private var _binding: FragmentSearchBinding? = null
 
     private val movieDataBase by lazy {
@@ -78,7 +81,7 @@ class SearchFragment : Fragment() {
     private fun displayResults(movies: List<MovieDetailsModel>) {
         val resultGridLayoutManager = GridLayoutManager(activity, 4)
         binding.rvResults.layoutManager = resultGridLayoutManager
-        val resultsMovieAdapter = MovieAdapter { model -> callback(model, binding.rvResults) }
+        val resultsMovieAdapter = MovieAdapter ({ model -> callback(model, binding.rvResults) }, {modelDetails -> callback })
         resultsMovieAdapter.movieList = movies
         binding.rvResults.adapter = resultsMovieAdapter
     }
