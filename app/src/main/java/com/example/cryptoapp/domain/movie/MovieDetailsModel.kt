@@ -2,7 +2,6 @@ package com.example.cryptoapp.domain.movie
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class MovieDetailsModel(
@@ -35,5 +34,5 @@ data class MovieDetailsModel(
     @SerialName("first_air_date")
     val firstAirDate: String = "",
     val name: String = "",
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
 ) {}

@@ -12,12 +12,19 @@ import java.lang.Exception
 class  MovieDetailsViewModel: ViewModel() {
 
     private var job: Job = Job()
-    private val repo = MovieRepositoryRetrofit()
+    private val repo = MovieRepositoryRetrofit
 
-    //fa ca la actors cu live data
-    val movieTitle = MutableLiveData<String>()
-    val movieOverview = MutableLiveData<String>()
-    val movieImage = MutableLiveData<String?>()
+    private val _movieTitle = MutableLiveData<String>()
+    val movieTitle: LiveData<String>
+        get() = _movieTitle
+
+    private val _movieOverview = MutableLiveData<String>()
+    val movieOverview: LiveData<String>
+        get() = _movieOverview
+
+    private val _movieImage = MutableLiveData<String?>()
+    val movieImage: LiveData<String?>
+        get() = _movieImage
 
     private val _actors = MutableLiveData<List<ActorModel>>()
     val actors: LiveData<List<ActorModel>>
@@ -28,12 +35,10 @@ class  MovieDetailsViewModel: ViewModel() {
 
         job = viewModelScope.launch(Dispatchers.IO) {
             try {
-                //Load movie details
                 val movieDetails = repo.getMovieById(movieId)
-                //Update UI
-                movieTitle.postValue(movieDetails.title)
-                movieOverview.postValue(movieDetails.overview)
-                movieImage.postValue(movieDetails.backdropPath)
+                _movieTitle.postValue(movieDetails.title)
+                _movieOverview.postValue(movieDetails.overview)
+                _movieImage.postValue(movieDetails.backdropPath)
             } catch (e: Exception) {
                 Log.e("MovieDetailsViewModel: ", e.toString())
             }

@@ -18,11 +18,7 @@ import com.example.cryptoapp.view_model.MovieDetailsViewModelFactory
 
 class MovieDetailsFragment: Fragment() {
 
-    private val viewModel: MovieDetailsViewModel by viewModels {
-        MovieDetailsViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: MovieDetailsViewModel by viewModels()
     @SuppressLint("StaticFieldLeak")
     private lateinit var binding: FragmentMovieDetailsBinding
 

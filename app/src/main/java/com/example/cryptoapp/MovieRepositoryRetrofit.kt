@@ -12,14 +12,17 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-class MovieRepositoryRetrofit {
+object MovieRepositoryRetrofit {
 
-    private val apiKey: String = "96d31308896f028f63b8801331250f03"
+    private const val apiKey: String = "96d31308896f028f63b8801331250f03"
+
+    private val json = Json { ignoreUnknownKeys = true }
 
     @OptIn(ExperimentalSerializationApi::class)
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://api.themoviedb.org")
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(
+            json.asConverterFactory("application/json".toMediaType()))
         .build()
 
     private val service = retrofit.create(MovieService::class.java)

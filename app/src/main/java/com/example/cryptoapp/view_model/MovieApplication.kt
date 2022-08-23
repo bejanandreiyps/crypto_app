@@ -12,5 +12,5 @@ class MovieApplication : Application() {
         DatabaseProvider.getInstance(this)?.getMovieDao()!!
     }
 
-    val appContainer = MovieRepositoryRetrofit()
+    val appContainer = MovieRepositoryRetrofit
 }

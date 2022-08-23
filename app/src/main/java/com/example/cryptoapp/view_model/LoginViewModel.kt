@@ -12,14 +12,13 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginViewModel: ViewModel() {
-    //livedata
     var username = MutableLiveData<String>()
     var password = MutableLiveData<String>()
     val state = MutableLiveData<LoginState>()
 
     private var job: Job = Job()
 
-    private val repo = MovieRepositoryRetrofit()
+    private val repo = MovieRepositoryRetrofit
 
     fun login() {
         val usr = username.value

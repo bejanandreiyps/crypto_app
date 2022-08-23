@@ -66,7 +66,6 @@ interface MovieService {
         @Query("api_key") apiKey: String
     ): ActorModel
 
-
     @GET("/3/search/movie")
     suspend fun getSearch(
         @Query("api_key") apiKey: String,
