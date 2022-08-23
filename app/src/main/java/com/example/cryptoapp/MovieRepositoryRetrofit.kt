@@ -12,9 +12,9 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-object MovieRepositoryRetrofit {
+class MovieRepositoryRetrofit {
 
-    private const val apiKey: String = "96d31308896f028f63b8801331250f03"
+    private val apiKey: String = "96d31308896f028f63b8801331250f03"
 
     @OptIn(ExperimentalSerializationApi::class)
     val retrofit: Retrofit = Retrofit.Builder()

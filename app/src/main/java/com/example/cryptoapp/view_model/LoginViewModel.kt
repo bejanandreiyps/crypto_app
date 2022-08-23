@@ -19,7 +19,7 @@ class LoginViewModel: ViewModel() {
 
     private var job: Job = Job()
 
-    private val repo = MovieRepositoryRetrofit
+    private val repo = MovieRepositoryRetrofit()
 
     fun login() {
         val usr = username.value

@@ -12,8 +12,9 @@ import java.lang.Exception
 class  MovieDetailsViewModel: ViewModel() {
 
     private var job: Job = Job()
-    private val repo = MovieRepositoryRetrofit
+    private val repo = MovieRepositoryRetrofit()
 
+    //fa ca la actors cu live data
     val movieTitle = MutableLiveData<String>()
     val movieOverview = MutableLiveData<String>()
     val movieImage = MutableLiveData<String?>()
