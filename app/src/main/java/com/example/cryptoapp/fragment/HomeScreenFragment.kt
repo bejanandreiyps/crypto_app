@@ -55,7 +55,11 @@ class HomeScreenFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val viewModel: HomeScreenViewModel by viewModels()
+    private val viewModel: HomeScreenViewModel by viewModels {
+        HomeViewModelFactory(
+            requireContext().applicationContext as MovieApplication
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

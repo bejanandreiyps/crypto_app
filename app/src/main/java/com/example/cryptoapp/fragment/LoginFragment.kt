@@ -7,24 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.cryptoapp.view_model.LoginViewModel
 import com.example.cryptoapp.R
+import com.example.cryptoapp.database.DatabaseProvider
 import com.example.cryptoapp.databinding.FragmentLoginBinding
 import com.example.cryptoapp.view_model.LoginState
 
 class LoginFragment : Fragment() {
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
     }
 
@@ -34,14 +35,6 @@ class LoginFragment : Fragment() {
         binding.loginViewModel = viewModel
         binding.loginButton.setOnClickListener {
             viewModel.login()
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(
-                    R.id.fragment_login,
-                    HomeScreenFragment(),
-                    "homeScreenFragment"
-                )
-                ?.addToBackStack(null)
-                ?.commit()
         }
         viewModel.state.observe(viewLifecycleOwner) { state ->
             loginStateObserver(state)
@@ -50,7 +43,6 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 
     @SuppressLint("SetTextI18n")
@@ -83,6 +75,5 @@ class LoginFragment : Fragment() {
                 }
             }
         }
-
     }
 }

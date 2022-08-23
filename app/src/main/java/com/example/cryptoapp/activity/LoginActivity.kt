@@ -15,25 +15,25 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.homeFragment -> replaceFragment(HomeScreenFragment())
-                //R.id.SearchFragment -> replaceFragment(SearchFragment)
-            }
-            true
-        }
+//        binding.bottomNavigationView.setOnItemSelectedListener {
+//            when(it.itemId) {
+//                R.id.homeFragment -> replaceFragment(HomeScreenFragment())
+//                //R.id.SearchFragment -> replaceFragment(SearchFragment)
+//            }
+//            true
+//        }
 
-        if(savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_login, LoginFragment())
-                .commit()
-        }
+//        if(savedInstanceState == null) {
+//            supportFragmentManager.beginTransaction()
+//                .add(R.id.loginFragment, LoginFragment())
+//                .commit()
+//        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_login, fragment)
+        fragmentTransaction.replace(R.id.loginFragment, fragment)
         fragmentTransaction.commit()
     }
 }
