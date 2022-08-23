@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.cryptoapp.view_model.LoginViewModel
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentLoginBinding
@@ -35,7 +37,7 @@ class LoginFragment : Fragment() {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(
                     R.id.fragment_login,
-                    HomeScreenFragment,
+                    HomeScreenFragment(),
                     "homeScreenFragment"
                 )
                 ?.addToBackStack(null)
@@ -50,6 +52,7 @@ class LoginFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
     @SuppressLint("SetTextI18n")
     private fun loginStateObserver(state: LoginState) {
         when (state) {
@@ -71,10 +74,15 @@ class LoginFragment : Fragment() {
                 binding.loginButton.text = "Login"
                 binding.loginButton.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
 
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_login, HomeScreenFragment)
-                    ?.commit()
+                binding.loginButton.setOnClickListener {
+                    viewModel.login()
+                    findNavController().navigate(
+                        R.id.homeAction,
+                        null,
+                        navOptions { popUpTo(R.id.loginFragment) { inclusive = true } })
+                }
             }
         }
+
     }
 }

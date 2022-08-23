@@ -3,52 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/HomeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/LoginFragment"
+        android:id="@+id/loginFragment"
         android:name="com.example.cryptoapp.fragment.LoginFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_login">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/HomeFragment" />
+            android:id="@+id/homeAction"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/HomeFragment"
+        android:id="@+id/homeFragment"
         android:name="com.example.cryptoapp.fragment.HomeScreenFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_home_screen">
 
+
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/LoginFragment" />
-        <action
-            android:id="@+id/action_SecondFragment_to_searchFragment3"
-            app:destination="@id/SearchFragment" />
-        <action
-            android:id="@+id/action_HomeFragment_to_movieDetailsFragment"
+            android:id="@+id/movieDetailsAction"
             app:destination="@id/movieDetailsFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_SearchFragment"-->
+<!--            app:destination="@id/SearchFragment" />-->
     </fragment>
-    <fragment
-        android:id="@+id/SearchFragment"
-        android:name="com.example.cryptoapp.fragment.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_SecondFragment3"
-            app:destination="@id/HomeFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/SearchFragment"-->
+<!--        android:name="com.example.cryptoapp.fragment.SearchFragment"-->
+<!--        android:label="fragment_search"-->
+<!--        tools:layout="@layout/fragment_search" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_searchFragment_to_SecondFragment3"-->
+<!--            app:destination="@id/homeFragment" />-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/movieDetailsFragment"
+        android:name="com.example.cryptoapp.fragment.MovieDetailsFragment"
         android:label="fragment_movie_details"
         tools:layout="@layout/fragment_movie_details" >
-        <action
-            android:id="@+id/action_movieDetailsFragment_to_HomeFragment"
-            app:destination="@id/HomeFragment" />
         <argument
-            android:name="description"
-            app:argType="string" />
+            android:name="movieId"
+            app:argType="integer" />
     </fragment>
 </navigation>

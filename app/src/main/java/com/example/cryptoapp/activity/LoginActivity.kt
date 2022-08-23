@@ -7,7 +7,6 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityLoginBinding
 import com.example.cryptoapp.fragment.HomeScreenFragment
 import com.example.cryptoapp.fragment.LoginFragment
-import com.example.cryptoapp.fragment.SearchFragment
 
 class LoginActivity : AppCompatActivity() {
     private val binding: ActivityLoginBinding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
@@ -18,8 +17,8 @@ class LoginActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.HomeFragment -> replaceFragment(HomeScreenFragment)
-                R.id.SearchFragment -> replaceFragment(SearchFragment)
+                R.id.homeFragment -> replaceFragment(HomeScreenFragment())
+                //R.id.SearchFragment -> replaceFragment(SearchFragment)
             }
             true
         }

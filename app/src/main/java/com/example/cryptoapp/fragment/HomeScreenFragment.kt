@@ -11,8 +11,10 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Dao
 import androidx.viewpager2.widget.ViewPager2
 import com.apollographql.apollo3.api.ApolloResponse
 import com.example.cryptoapp.database.DatabaseProvider
@@ -22,6 +24,7 @@ import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.MovieStarsAdapter
 import com.example.cryptoapp.adapter.RickMortyAdapter
+import com.example.cryptoapp.dao.MovieDao
 import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
 import com.example.cryptoapp.domain.RickMortyCharacterModel
@@ -30,13 +33,15 @@ import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.movie.MovieModel
 import com.example.cryptoapp.domain.stars.ActorModel
 import com.example.cryptoapp.view_model.HomeScreenViewModel
+import com.example.cryptoapp.view_model.HomeViewModelFactory
+import com.example.cryptoapp.view_model.MovieApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-object HomeScreenFragment : Fragment() {
+class HomeScreenFragment : Fragment() {
 
     @SuppressLint("StaticFieldLeak")
     private var _binding: FragmentHomeScreenBinding? = null
@@ -49,8 +54,8 @@ object HomeScreenFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val viewModel: HomeScreenViewModel by viewModels()
 
+    private val viewModel: HomeScreenViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,18 +70,42 @@ object HomeScreenFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeScreenViewModel = viewModel
 
+//        //Gallery
+//        binding.vpGallery.adapter = GalleryAdapter { movieId ->
+//            onMovieCardClick(movieId)
+//        }
+
+//        //Actors
+//        binding.rvStars.adapter = ActorAdapter()
+
+        //Movies
+        listOf(binding.rvPopularMovies, binding.rvTopRatedMovies, binding.rvAiringToday).forEach {
+            it.adapter = MovieAdapter(
+                { model -> onMovieCardHold(model, it) },
+                { movieId -> onMovieCardClick(movieId) }
+            )
+        }
         createObservers()
         viewModel.populateGallery()
         viewModel.populateActors()
         viewModel.populatePopularMovies()
         viewModel.populateTopRatedMovies()
         viewModel.populateAiringMovies()
-        createSearchButton()
+        //createSearchButton()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onMovieCardClick(movieId: Int) {
+        findNavController().navigate(HomeScreenFragmentDirections.movieDetailsAction(movieId))
+    }
+
+    private fun onMovieCardHold(model: MovieDetailsModel, view: RecyclerView) {
+        viewModel.handleMovieCardHold(model)
+        (view.adapter as? MovieAdapter)?.modifyElement(model)
     }
 
     private fun createObservers() {
@@ -88,13 +117,13 @@ object HomeScreenFragment : Fragment() {
             populateMovieStars(list)
         }
         viewModel.popularMovies.observe(viewLifecycleOwner) { list ->
-            populateMovieRecyclerView(list, binding.rvPopularMovies)
+            (binding.rvPopularMovies.adapter as MovieAdapter).movieList = list.results
         }
         viewModel.topRatedMovies.observe(viewLifecycleOwner) { list ->
-            populateMovieRecyclerView(list, binding.rvTopRatedMovies)
+            (binding.rvTopRatedMovies.adapter as MovieAdapter).movieList = list.results
         }
         viewModel.airingMovies.observe(viewLifecycleOwner) { list ->
-            populateMovieRecyclerView(list, binding.rvAiringToday)
+            (binding.rvAiringToday.adapter as MovieAdapter).movieList = list.results
         }
     }
 
@@ -137,23 +166,13 @@ object HomeScreenFragment : Fragment() {
         binding.rvMovieStars.adapter = movieStarsAdapter
     }
 
-    private fun populateMovieRecyclerView(movieList: MovieModel, view: RecyclerView) {
-        val movieAdapter = MovieAdapter ({ model -> callback(model, view)}, { modelDetails -> callbackDetails(modelDetails, view) })
-        syncFavorites(movieList) {
-            lifecycleScope.launch(Dispatchers.Main) {
-                movieAdapter.movieList = it
-            }
-        }
-        view.adapter = movieAdapter
-    }
-
-    private fun createSearchButton() {
-        binding.ivSearchIcon.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_login, SearchFragment)
-                ?.addToBackStack(null)?.commit()
-        }
-    }
+//    private fun createSearchButton() {
+//        binding.ivSearchIcon.setOnClickListener {
+//            activity?.supportFragmentManager?.beginTransaction()
+//                ?.replace(R.id.fragment_login, SearchFragment)
+//                ?.addToBackStack(null)?.commit()
+//        }
+//    }
 
 //    private fun populateRickMorty(rickMorty: ApolloResponse<RickMortyQuery.Data>) {
 //        val rickMortyAdapter = RickMortyAdapter()
@@ -168,33 +187,4 @@ object HomeScreenFragment : Fragment() {
 //        }
 //        binding.rvRickMorty.adapter = rickMortyAdapter
 //    }
-
-    private val callback: (movieModel: MovieDetailsModel, view: RecyclerView) -> Unit = { model, view->
-        lifecycleScope.launch {
-            if(model.isFavorite) {
-                dao.deleteOne(model.id.toString())
-            } else {
-                dao.insertOne(MovieDataBaseModel(id = model.id, movieTitle = model.title, movieIsFavorite = true))
-            }
-        }
-        (view.adapter as? MovieAdapter)?.modifyElement(model)
-    }
-
-    private val callbackDetails: (movieModel: MovieDetailsModel, view: RecyclerView) -> Unit = { model, view->
-        lifecycleScope.launch {
-            findNavController().navigate(R.id.movieDetailsFragment)
-        }
-    }
-
-    private fun syncFavorites(rvMovies: MovieModel, callback: (model: List<MovieDetailsModel>)->Unit) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val movies = rvMovies.results.map { movie ->
-                dao.queryAfterId(movie.id.toString())?.let {
-                    return@map movie.copy(isFavorite = true)
-                }
-                return@map movie
-            }
-            callback(movies)
-        }
-    }
 }

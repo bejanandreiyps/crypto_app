@@ -3,12 +3,11 @@ package com.example.cryptoapp
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
 import com.example.cryptoapp.domain.login.TokenModel
+import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
 import com.example.cryptoapp.domain.movie.MovieModel
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import com.example.cryptoapp.domain.stars.ActorModel
+import retrofit2.http.*
 
 interface MovieService {
     @GET("/3/authentication/token/new")
@@ -54,6 +53,19 @@ interface MovieService {
         @Query("language") language: String,
         @Query("page") page: Int
     ): MovieModel
+
+    @GET("3/movie/{movie_id}")
+    suspend fun getMovieById(
+        @Path("movie_id") movieId: String,
+        @Query("api_key") apiKey: String
+    ): MovieDetailsModel
+
+    @GET("3/movie/{movie_id}")
+    suspend fun getActors(
+        @Path("movie_id") movieId: String,
+        @Query("api_key") apiKey: String
+    ): ActorModel
+
 
     @GET("/3/search/movie")
     suspend fun getSearch(

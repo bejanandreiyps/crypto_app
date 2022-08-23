@@ -3,6 +3,7 @@ package com.example.cryptoapp
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
 import com.example.cryptoapp.domain.login.TokenModel
+import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
 import com.example.cryptoapp.domain.movie.MovieModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -50,6 +51,9 @@ object MovieRepositoryRetrofit {
     suspend fun getAiringTodayMovies(language: String, page: Int): MovieModel {
         return service.getAiringTodayMovies(apiKey, language, page)
     }
+
+    suspend fun getMovieById(movieId: String): MovieDetailsModel =
+        service.getMovieById(apiKey = apiKey, movieId = movieId)
 
     suspend fun getSearch(language: String, page: Int, query: String): MovieModel {
         if (query == "") {

@@ -5,15 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.FragmentMovieDetailsBinding
 import com.example.cryptoapp.databinding.MovieLayoutBinding
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
-import com.example.cryptoapp.fragment.SearchFragment
+import com.example.cryptoapp.fragment.HomeScreenFragmentDirections
 
-class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit, private val callbackDetails: (modelDetails: MovieDetailsModel) -> Unit) :
+class MovieAdapter(
+    private val callbackHold: (model: MovieDetailsModel) -> Unit,
+    private val callbackClick: (movieId: Int) -> Unit
+) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     var movieList = listOf<MovieDetailsModel>()
 
@@ -23,7 +27,10 @@ class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit, pri
         notifyDataSetChanged()
     }
 
-    inner class MovieViewHolder(private val binding: MovieLayoutBinding, private val callback: (model: MovieDetailsModel)->Unit, private val callbackDetails: (modelDetails: MovieDetailsModel) -> Unit) : RecyclerView.ViewHolder(binding.root) {
+    inner class MovieViewHolder(
+        private val binding: MovieLayoutBinding,
+        private val callbackHold: (model: MovieDetailsModel) -> Unit,
+        private val callbackClick: (model: Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MovieDetailsModel) {
             Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500" + item.posterPath)
                 .into(binding.ivMoviePoster)
@@ -39,13 +46,11 @@ class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit, pri
             }
 
             binding.cvMoviePoster.setOnLongClickListener {
-                callback(item)
+                callbackHold(item)
                 true
             }
-
             binding.cvMoviePoster.setOnClickListener {
-                val description = item.overview
-                callbackDetails(item)
+                callbackClick(item.id)
             }
         }
 
@@ -65,7 +70,7 @@ class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit, pri
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = MovieLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(binding, callback, callbackDetails)
+        return MovieViewHolder(binding, callbackHold, callbackClick)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
@@ -75,8 +80,6 @@ class MovieAdapter(private val callback: (model: MovieDetailsModel) -> Unit, pri
     override fun getItemCount(): Int {
         return movieList.size
     }
-
-
 
     fun modifyElement(movieModel: MovieDetailsModel) {
         val pos = movieList.indexOf(movieModel)
