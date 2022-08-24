@@ -2,6 +2,7 @@ package com.example.cryptoapp.view_model
 
 import android.util.Log
 import androidx.lifecycle.*
+import com.bumptech.glide.Glide
 import com.example.cryptoapp.MovieRepositoryRetrofit
 import com.example.cryptoapp.domain.stars.ActorModel
 import kotlinx.coroutines.Dispatchers
@@ -39,6 +40,7 @@ class  MovieDetailsViewModel: ViewModel() {
                 _movieTitle.postValue(movieDetails.title)
                 _movieOverview.postValue(movieDetails.overview)
                 _movieImage.postValue(movieDetails.backdropPath)
+
             } catch (e: Exception) {
                 Log.e("MovieDetailsViewModel: ", e.toString())
             }

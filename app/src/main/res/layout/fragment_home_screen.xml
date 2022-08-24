@@ -6,8 +6,7 @@
     <data>
         <variable
             name="homeScreenViewModel"
-            type="com.example.cryptoapp.view_model.HomeScreenViewModel"
-            />
+            type="com.example.cryptoapp.view_model.HomeScreenViewModel" />
     </data>
 
     <ScrollView
