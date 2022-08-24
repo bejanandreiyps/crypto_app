@@ -40,7 +40,6 @@ class HomeScreenViewModel(
     val rms: LiveData<List<RickMortyQuery.Characters>>
         get() = _rms
 
-
     fun populateGallery() {
         viewModelScope.launch(Dispatchers.IO) {
             _gallery.postValue(repo.getGalleryMoviesOrSeries().results.map {
@@ -99,7 +98,7 @@ class HomeScreenViewModel(
 //    }
 }
 
-class HomeViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
+class HomeScreenViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return HomeScreenViewModel(
             application.dao,

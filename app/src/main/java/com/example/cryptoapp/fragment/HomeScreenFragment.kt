@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.cardview.widget.CardView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -33,7 +34,7 @@ import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.movie.MovieModel
 import com.example.cryptoapp.domain.stars.ActorModel
 import com.example.cryptoapp.view_model.HomeScreenViewModel
-import com.example.cryptoapp.view_model.HomeViewModelFactory
+import com.example.cryptoapp.view_model.HomeScreenViewModelFactory
 import com.example.cryptoapp.view_model.MovieApplication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,7 +45,7 @@ import kotlinx.coroutines.launch
 class HomeScreenFragment : Fragment() {
 
     @SuppressLint("StaticFieldLeak")
-    private var _binding: FragmentHomeScreenBinding? = null
+    private lateinit var binding: FragmentHomeScreenBinding
     private val movieDataBase by lazy {
         DatabaseProvider.getInstance(requireContext())
     }
@@ -53,10 +54,9 @@ class HomeScreenFragment : Fragment() {
     }
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
 
     private val viewModel: HomeScreenViewModel by viewModels {
-        HomeViewModelFactory(
+        HomeScreenViewModelFactory(
             requireContext().applicationContext as MovieApplication
         )
     }
@@ -65,7 +65,7 @@ class HomeScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_screen, container, false)
         return binding.root
     }
 
@@ -74,15 +74,12 @@ class HomeScreenFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeScreenViewModel = viewModel
 
-//        //Gallery
 //        binding.vpGallery.adapter = GalleryAdapter { movieId ->
 //            onMovieCardClick(movieId)
 //        }
 
-//        //Actors
 //        binding.rvStars.adapter = ActorAdapter()
 
-        //Movies
         listOf(binding.rvPopularMovies, binding.rvTopRatedMovies, binding.rvAiringToday).forEach {
             it.adapter = MovieAdapter(
                 { model -> onMovieCardHold(model, it) },
@@ -95,21 +92,11 @@ class HomeScreenFragment : Fragment() {
         viewModel.populatePopularMovies()
         viewModel.populateTopRatedMovies()
         viewModel.populateAiringMovies()
-        //createSearchButton()
+        createSearchButton()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
-    }
-
-    private fun onMovieCardClick(movieId: Int) {
-        findNavController().navigate(HomeScreenFragmentDirections.movieDetailsAction(movieId))
-    }
-
-    private fun onMovieCardHold(model: MovieDetailsModel, view: RecyclerView) {
-        viewModel.handleMovieCardHold(model)
-        (view.adapter as? MovieAdapter)?.modifyElement(model)
     }
 
     private fun createObservers() {
@@ -170,13 +157,21 @@ class HomeScreenFragment : Fragment() {
         binding.rvMovieStars.adapter = movieStarsAdapter
     }
 
-//    private fun createSearchButton() {
-//        binding.ivSearchIcon.setOnClickListener {
-//            activity?.supportFragmentManager?.beginTransaction()
-//                ?.replace(R.id.fragment_login, SearchFragment)
-//                ?.addToBackStack(null)?.commit()
-//        }
-//    }
+    private fun createSearchButton() {
+        binding.ivSearchIcon.setOnClickListener {
+            findNavController().navigate(HomeScreenFragmentDirections.homeScreenToSearchAction())
+        }
+    }
+
+    private fun onMovieCardClick(movieId: Int) {
+        findNavController().navigate(HomeScreenFragmentDirections.homeScreenToMovieDetailsAction(movieId))
+    }
+
+    private fun onMovieCardHold(model: MovieDetailsModel, view: RecyclerView) {
+        viewModel.handleMovieCardHold(model)
+        (view.adapter as? MovieAdapter)?.modifyElement(model)
+    }
+
 
 //    private fun populateRickMorty(rickMorty: ApolloResponse<RickMortyQuery.Data>) {
 //        val rickMortyAdapter = RickMortyAdapter()
