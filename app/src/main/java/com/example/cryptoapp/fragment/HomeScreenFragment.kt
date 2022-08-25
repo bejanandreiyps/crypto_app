@@ -6,42 +6,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Dao
 import androidx.viewpager2.widget.ViewPager2
-import com.apollographql.apollo3.api.ApolloResponse
 import com.example.cryptoapp.database.DatabaseProvider
 import com.example.cryptoapp.R
-import com.example.cryptoapp.RickMortyQuery
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.MovieStarsAdapter
-import com.example.cryptoapp.adapter.RickMortyAdapter
-import com.example.cryptoapp.dao.MovieDao
-import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
-import com.example.cryptoapp.domain.RickMortyCharacterModel
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
-import com.example.cryptoapp.domain.movie.MovieModel
 import com.example.cryptoapp.domain.stars.ActorModel
 import com.example.cryptoapp.view_model.HomeScreenViewModel
-import com.example.cryptoapp.view_model.HomeScreenViewModelFactory
-import com.example.cryptoapp.view_model.MovieApplication
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+
+@AndroidEntryPoint
 class HomeScreenFragment : Fragment() {
 
     @SuppressLint("StaticFieldLeak")
@@ -49,17 +35,11 @@ class HomeScreenFragment : Fragment() {
     private val movieDataBase by lazy {
         DatabaseProvider.getInstance(requireContext())
     }
-    private val dao by lazy {
-        movieDataBase?.getMovieDao()!!
-    }
+
     // This property is only valid between onCreateView and
     // onDestroyView.
 
-    private val viewModel: HomeScreenViewModel by viewModels {
-        HomeScreenViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: HomeScreenViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,12 +53,6 @@ class HomeScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeScreenViewModel = viewModel
-
-//        binding.vpGallery.adapter = GalleryAdapter { movieId ->
-//            onMovieCardClick(movieId)
-//        }
-
-//        binding.rvStars.adapter = ActorAdapter()
 
         listOf(binding.rvPopularMovies, binding.rvTopRatedMovies, binding.rvAiringToday).forEach {
             it.adapter = MovieAdapter(

@@ -2,6 +2,7 @@ package com.example.cryptoapp
 
 import com.example.cryptoapp.domain.gallery.MovieOrSeriesModel
 import com.example.cryptoapp.domain.login.CredentialsModel
+import com.example.cryptoapp.domain.login.SessionModel
 import com.example.cryptoapp.domain.login.TokenModel
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.stars.MovieStarModel
@@ -20,6 +21,12 @@ interface MovieService {
         @Query("api_key") api_key: String,
         @Body credentials : CredentialsModel
     ): TokenModel
+
+    @POST("/3/authentication/session/new")
+    suspend fun createSession(
+        @Query("api_key") apiKey: String,
+        @Body token: TokenModel
+    ): SessionModel
 
     @GET("/3/trending/all/day")
     suspend fun getGalleryMoviesOrSeries(

@@ -1,20 +1,20 @@
 package com.example.cryptoapp.view_model
 
 import androidx.lifecycle.*
-import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.MovieRepository
 import com.example.cryptoapp.RickMortyQuery
-import com.example.cryptoapp.dao.MovieDao
-import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.movie.MovieModel
 import com.example.cryptoapp.domain.stars.ActorModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeScreenViewModel(
-    private val dao: MovieDao,
-    private val repo: MovieRepositoryRetrofit,
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
+    private val repo: MovieRepository,
 ): ViewModel() {
     private val _gallery = MutableLiveData<List<GalleryModel>>()
     val gallery: LiveData<List<GalleryModel>>
@@ -83,11 +83,7 @@ class HomeScreenViewModel(
 
     fun handleMovieCardHold(movie: MovieDetailsModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (movie.isFavorite) {
-                dao.deleteOne(movie.id.toString())
-            } else {
-                dao.insertOne(MovieDataBaseModel(movie.id, movie.title))
-            }
+            repo.handleMovieCardHold(movie)
         }
     }
 
@@ -96,13 +92,4 @@ class HomeScreenViewModel(
 //            _rms.postValue()
 //        }
 //    }
-}
-
-class HomeScreenViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeScreenViewModel(
-            application.dao,
-            application.appContainer,
-        ) as T
-    }
 }

@@ -4,21 +4,26 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.MovieRepository
 import com.example.cryptoapp.domain.login.CredentialsModel
+import com.example.cryptoapp.login.LoginState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repo: MovieRepository
+): ViewModel() {
     var username = MutableLiveData<String>()
     var password = MutableLiveData<String>()
     val state = MutableLiveData<LoginState>()
 
     private var job: Job = Job()
 
-    private val repo = MovieRepositoryRetrofit
 
     fun login() {
         val usr = username.value
@@ -38,9 +43,10 @@ class LoginViewModel: ViewModel() {
         job  = viewModelScope.launch(Dispatchers.IO) {
             try {
                 state.postValue(LoginState.InProgress)
-                val token = repo.getToken()
-                repo.postLogin(
-                    CredentialsModel(usr, pwd, token.requestToken)
+                repo.createSession(
+                    repo.postLogin(
+                        CredentialsModel(usr, pwd, repo.getToken().requestToken)
+                    )
                 )
                 state.postValue(LoginState.Success)
             } catch (e: HttpException) {

@@ -13,7 +13,7 @@ object DatabaseProvider {
         if(database == null) {
             database = Room.databaseBuilder(
                 context, MovieDatabase::class.java,
-                MOVIE_DATABASE_TAG
+                "movie_database"
             ).fallbackToDestructiveMigration().build()
         }
         return database

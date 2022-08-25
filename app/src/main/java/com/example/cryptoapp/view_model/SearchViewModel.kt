@@ -2,17 +2,20 @@ package com.example.cryptoapp.view_model
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.MovieRepository
 import com.example.cryptoapp.dao.MovieDao
 import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val dao: MovieDao,
-    private val repo: MovieRepositoryRetrofit,
+    private val repo: MovieRepository,
 ): ViewModel() {
 
     private var job: Job = Job()
@@ -43,14 +46,5 @@ class SearchViewModel(
                 dao.insertOne(MovieDataBaseModel(movie.id, movie.title))
             }
         }
-    }
-}
-
-class SearchViewModelFactory(private val application: MovieApplication): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SearchViewModel(
-            application.dao,
-            application.appContainer
-        ) as T
     }
 }

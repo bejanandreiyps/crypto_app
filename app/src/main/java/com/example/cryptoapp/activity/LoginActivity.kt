@@ -7,7 +7,9 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityLoginBinding
 import com.example.cryptoapp.fragment.HomeScreenFragment
 import com.example.cryptoapp.fragment.LoginFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private val binding: ActivityLoginBinding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
 

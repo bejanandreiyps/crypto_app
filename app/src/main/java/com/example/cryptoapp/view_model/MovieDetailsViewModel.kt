@@ -2,18 +2,21 @@ package com.example.cryptoapp.view_model
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.bumptech.glide.Glide
-import com.example.cryptoapp.MovieRepositoryRetrofit
+import com.example.cryptoapp.MovieRepository
 import com.example.cryptoapp.domain.stars.ActorModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class  MovieDetailsViewModel: ViewModel() {
+@HiltViewModel
+class  MovieDetailsViewModel @Inject constructor(
+    private val repo: MovieRepository
+): ViewModel() {
 
     private var job: Job = Job()
-    private val repo = MovieRepositoryRetrofit
 
     private val _movieTitle = MutableLiveData<String>()
     val movieTitle: LiveData<String>
@@ -45,12 +48,5 @@ class  MovieDetailsViewModel: ViewModel() {
                 Log.e("MovieDetailsViewModel: ", e.toString())
             }
         }
-    }
-}
-
-class MovieDetailsViewModelFactory(private val application: MovieApplication) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MovieDetailsViewModel() as T
     }
 }

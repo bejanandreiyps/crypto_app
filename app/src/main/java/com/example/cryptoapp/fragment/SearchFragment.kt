@@ -14,34 +14,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoapp.database.DatabaseProvider
-import com.example.cryptoapp.MovieRepositoryRetrofit
 import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
-import com.example.cryptoapp.view_model.MovieApplication
 import com.example.cryptoapp.view_model.SearchViewModel
-import com.example.cryptoapp.view_model.SearchViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: SearchViewModel by viewModels()
 
     @SuppressLint("StaticFieldLeak")
     private lateinit var binding: FragmentSearchBinding
-
-    private val movieDataBase by lazy {
-        DatabaseProvider.getInstance(requireContext())!!
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

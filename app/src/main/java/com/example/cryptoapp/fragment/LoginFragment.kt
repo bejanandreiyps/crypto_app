@@ -13,10 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.cryptoapp.view_model.LoginViewModel
 import com.example.cryptoapp.R
-import com.example.cryptoapp.database.DatabaseProvider
 import com.example.cryptoapp.databinding.FragmentLoginBinding
-import com.example.cryptoapp.view_model.LoginState
+import com.example.cryptoapp.login.LoginState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
