@@ -9,13 +9,22 @@ import com.example.cryptoapp.domain.movie.MovieModel
 import com.example.cryptoapp.domain.stars.ActorModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val repo: MovieRepository,
-): ViewModel() {
+) : ViewModel() {
+
+    // Backing property to avoid state updates from other classes
+    private val _uiState = MutableStateFlow(HomeScreenUiState.Success(emptyList()))
+
+    // The UI collects from this StateFlow to get its state updates
+    val uiState: StateFlow<HomeScreenUiState> = _uiState
+
     private val _gallery = MutableLiveData<List<GalleryModel>>()
     val gallery: LiveData<List<GalleryModel>>
         get() = _gallery
@@ -42,24 +51,26 @@ class HomeScreenViewModel @Inject constructor(
 
     fun populateGallery() {
         viewModelScope.launch(Dispatchers.IO) {
-            _gallery.postValue(repo.getGalleryMoviesOrSeries().results.map {
+            val response = repo.getGalleryMoviesOrSeries().results.map {
                 GalleryModel(
                     it.backdropPath,
                     it.title,
                     it.releaseDate
                 )
-            })
+            }
+            _uiState.value = _uiState.value.copy(galleryList = response)
         }
     }
 
     fun populateActors() {
         viewModelScope.launch(Dispatchers.IO) {
-            _actors.postValue(repo.getMovieStars("en-US", 1).results.map {
+            val response = repo.getMovieStars("en-US", 1).results.map {
                 ActorModel(
                     name = it.name,
                     profilePath = it.profilePath
                 )
-            })
+            }
+            _uiState.value = _uiState.value.copy(actorList = response)
         }
     }
 
@@ -92,4 +103,13 @@ class HomeScreenViewModel @Inject constructor(
 //            _rms.postValue()
 //        }
 //    }
+}
+
+sealed class HomeScreenUiState { // plus restu de chestii
+    data class Success(
+        val galleryList: List<GalleryModel> = emptyList(),
+        val actorList: List<ActorModel> = emptyList()
+    ) : HomeScreenUiState()
+
+    data class Error(val exception: Throwable) : HomeScreenUiState()
 }

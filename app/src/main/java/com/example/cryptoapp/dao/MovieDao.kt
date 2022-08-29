@@ -3,6 +3,7 @@ package com.example.cryptoapp.dao
 import androidx.room.*
 import com.example.cryptoapp.database.MovieDataBaseModel
 import com.example.cryptoapp.database.TABLE_NAME
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
@@ -22,5 +23,5 @@ interface MovieDao {
     suspend fun update(lastMinuteProduct: MovieDataBaseModel)
 
     @Query("SELECT * FROM $TABLE_NAME where id = :id")
-    suspend fun queryAfterId(id: String): MovieDataBaseModel?
+    suspend fun queryAfterId(id: String): Flow<MovieDataBaseModel?>
 }

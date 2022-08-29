@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -20,8 +21,10 @@ import com.example.cryptoapp.databinding.FragmentHomeScreenBinding
 import com.example.cryptoapp.domain.gallery.GalleryModel
 import com.example.cryptoapp.domain.movie.MovieDetailsModel
 import com.example.cryptoapp.domain.stars.ActorModel
+import com.example.cryptoapp.view_model.HomeScreenUiState
 import com.example.cryptoapp.view_model.HomeScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -74,9 +77,20 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun createObservers() {
-        viewModel.gallery.observe(viewLifecycleOwner) { list ->
-            populateGallery(list)
-            populateIndicator()
+//        viewModel.gallery.observe(viewLifecycleOwner) { list ->
+//            populateGallery(list)
+//            populateIndicator()
+//        }
+        lifecycleScope.launch {
+            viewModel.uiState.collect {
+                when(it) {
+                    is HomeScreenUiState.Error -> TODO()
+                    is HomeScreenUiState.Success -> {
+                        populateGallery(it.galleryList)
+                        populateIndicator()
+                    }
+                }
+            }
         }
         viewModel.actors.observe(viewLifecycleOwner) { list ->
             populateMovieStars(list)
